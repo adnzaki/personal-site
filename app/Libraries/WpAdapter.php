@@ -247,7 +247,7 @@ class WpAdapter
 
         if ($post->featured_media !== 0) {
             $media = $this->call('media/' . $post->featured_media);
-            $postImage = $media->media_details->sizes->large->source_url;
+            $postImage = $media->media_details->sizes->large->source_url ?? $media->media_details->sizes->full->source_url;
             $thumbnail = $media->media_details->sizes->medium->source_url;
             $singlePostImage = $media->media_details->sizes->full->source_url;
         }
@@ -282,10 +282,13 @@ class WpAdapter
 
         $postURL = base_url($this->singlePostBaseUrl . '/' . $post->slug);
 
+        $renderedContent = strip_tags($post->content->rendered);
+        $ellipsis = strlen($renderedContent) > $this->excerptLength ? '...' : '';
+
         return (object)[
             'id'                => $post->id,
             'title'             => $post->title->rendered,
-            'excerpt'           => substr(strip_tags($post->content->rendered), 0, $this->excerptLength),
+            'excerpt'           => substr($renderedContent, 0, $this->excerptLength) . $ellipsis,
             'content'           => $post->content->rendered,
             'media'             => $postImage,
             'thumbnail'         => $thumbnail,
@@ -299,6 +302,19 @@ class WpAdapter
             'date'              => $date,
             'comments'          => count($comments),
         ];
+    }
+
+    public function getRawPosts($page)
+    {
+        $endpoint = 'posts?page=' . $page . '&per_page=' . $this->perPage;
+        $posts = $this->call($endpoint);
+        foreach($posts as $post) {
+            if ($post->featured_media !== 0) {
+                $post->media = $this->call('media/' . $post->featured_media);
+            }
+        }
+
+        return $posts;
     }
 
     /**

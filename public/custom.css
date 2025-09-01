@@ -23,6 +23,44 @@
     /* Tambahkan bayangan */
 }
 
+.single-catagory-area {
+    width: 100%;
+    height: 490px;
+    overflow: hidden;
+    position: relative;
+}
+
+.single-catagory-area img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.single-catagory-area .catagory-title {
+    padding: 20px;
+    text-align: center;
+    background-color: #000000d8;
+}
+
+.blog-img-landscape {
+    max-height: 300px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.thumbnail-square {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+ul.tags {
+    padding-left: 0 !important;
+}
+
 @media(max-width: 576px) {
     .sticky-nav {
         padding: 0 20px !important;
