@@ -1,0 +1,11 @@
+RewriteEngine On 
+
+RewriteCond %{HTTP_HOST} ^(\.)?wiratama-group\.com$ 
+RewriteRule ^(.*)$ /main-website/public/$1 [L]
+
+RewriteCond %{HTTP_HOST} ^(\.)?cms.wiratama-group\.com$ 
+RewriteRule ^(.*)$ /cms/$1 [L]
+
+# Redirect www to non-www
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ https://wiratama-group.com/ [L,R=301]
