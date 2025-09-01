@@ -4,7 +4,7 @@
 
             <!-- Single Blog Area  -->
             <?php $delay = 2;
-            foreach ($recentPosts as $post) : ?>
+            foreach ($posts as $post) : ?>
                 <div class="single-blog-area blog-style-2 mb-50 wow fadeInUp" data-wow-delay="0.<?= $delay ?>s" data-wow-duration="1000ms">
                     <div class="row align-items-center">
                         <div class="col-12 col-md-6">
@@ -35,13 +35,23 @@
             <?php $delay++;
             endforeach; ?>
 
+            <!-- Show pagination if this is not homepage -->
+            <?php if($notHome): ?>
+            <div class="col-lg-12 text-center">
+                <div class="space30"></div>
+                <?= $pageLinks ?>
+            </div>
+            <?php endif; ?>
+
 
             <!-- Load More -->
-            <div class="load-more-btn mt-100 wow fadeInUp" data-wow-delay="0.7s" data-wow-duration="1000ms">
-                <a href="<?= base_url('posts') ?>" class="btn original-btn">Lihat Semua Cerita</a>
-            </div>
+            <?php if (! isset($notHome) || !$notHome): ?>
+                <div class="load-more-btn mt-100 wow fadeInUp" data-wow-delay="0.7s" data-wow-duration="1000ms">
+                    <a href="<?= base_url('posts') ?>" class="btn original-btn">Lihat Semua Cerita</a>
+                </div>
+            <?php endif; ?>
         </div>
 
-        <?= view('home/sidebar') ?>
+        <?= view('layout/sidebar') ?>
     </div>
 </div>

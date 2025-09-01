@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 class Home extends BaseController
 {
+    use PostTrait;
+    
     public function index(): string
     {
         $allPosts = wp()->setPerPage(12)->getPosts(1);
@@ -13,14 +15,14 @@ class Home extends BaseController
         $wrapperContent = [
             'status'        => $allPosts['status'],
             'latestPosts'   => $latestPosts,
-            'recentPosts'   => $recentPosts,
-            'olderPosts'    => $olderPosts,
+            'posts'         => $recentPosts,
+            'popularPosts'  => $this->popularPosts(),
             'tags'          => wp()->getTags(),
         ];
 
         $content = [
             'highlights'    => view('home/highlights', $wrapperContent),
-            'recent'        => view('home/recent', $wrapperContent),
+            'recent'        => view('layout/post-list', $wrapperContent),
         ];
 
         $data = [

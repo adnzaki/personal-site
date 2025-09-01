@@ -13,12 +13,12 @@
 
         <!-- Widget Area -->
         <div class="sidebar-widget-area">
-            <h5 class="title">Cerita Lainnya</h5>
+            <h5 class="title">Cerita Terhangat</h5>
 
             <div class="widget-content">
 
                 <!-- Single Blog Post -->
-                <?php foreach ($olderPosts as $post) : ?>
+                <?php foreach ($popularPosts as $post) : ?>
                     <div class="single-blog-post d-flex align-items-center widget-post">
                         <!-- Post Thumbnail -->
                         <div class="post-thumbnail">

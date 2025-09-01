@@ -94,12 +94,14 @@ class WpAdapter
      * @param string $search Limit results based on search parameter
      * @param string $taxonomy Category | Tag
      * @param string $filter Category or tag name being searched
+     * @param array $ids Limit results based on post ids
      * 
      * @return array
      */
-    public function getPosts(int $page, $search = '', string $taxonomy = '', string $filter = '')
+    public function getPosts(int $page, $search = '', string $taxonomy = '', string $filter = '', array $ids = [])
     {
-        $endpoint = 'posts?page=' . $page . '&per_page=' . $this->perPage;
+        $selectedIds = (empty($ids)) ? '' : '&include=' . implode(',', $ids);
+        $endpoint = 'posts?page=' . $page . '&per_page=' . $this->perPage . $selectedIds;
 
         if (! empty($search)) $endpoint .= '&search=' . urlencode($search);
 
@@ -303,7 +305,16 @@ class WpAdapter
             'comments'          => count($comments),
         ];
     }
-
+    
+    /**
+     * Get raw posts from WordPress REST API. This function does not format posts
+     * to be used directly in views. It is used by the getPosts function to format
+     * posts.
+     *
+     * @param int $page The page being searched based on total post
+     * 
+     * @return array
+     */
     public function getRawPosts($page)
     {
         $endpoint = 'posts?page=' . $page . '&per_page=' . $this->perPage;
@@ -321,11 +332,11 @@ class WpAdapter
      * Make request to WordPress REST API
      * 
      * @param string $path Path to REST API endpoint
-     * @param mixed $associative whether to return decoded JSON as associative array or not
+     * @param boolean $withTotal whether to include total post count or not
      * 
-     * @return object
+     * @return array|object
      */
-    public function call(string $path)
+    public function call(string $path, bool $withTotal = false) 
     {
 
         // prepare curl
@@ -341,11 +352,29 @@ class WpAdapter
         // return the transfer as a string 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
+        // get response header
+        curl_setopt($ch, CURLOPT_HEADER, 1);
+
         // $output contains the output string 
-        $output = curl_exec($ch);
+        $response = curl_exec($ch);
+        $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+
+        $header = substr($response, 0, $headerSize);
+        $body = substr($response, $headerSize);
+
 
         curl_close($ch);
 
-        return json_decode($output, $this->responseAsArray);
+        // Get X-WP-Total from header
+        preg_match('/X-WP-Total:\s*(\d+)/i', $header, $matches);
+        $totalPosts = isset($matches[1]) ? (int) $matches[1] : null;
+        $bodyResult = json_decode($body, $this->responseAsArray);
+
+        $output = $withTotal ? [
+            'total' => $totalPosts,
+            'data' => $bodyResult,
+        ] : $bodyResult;
+
+        return $output;
     }
 }
