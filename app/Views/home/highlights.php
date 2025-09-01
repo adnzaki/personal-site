@@ -1,5 +1,5 @@
 <!-- ##### Blog Wrapper Start ##### -->
-<div class="blog-wrapper section-padding-100 clearfix">
+<div class="blog-wrapper section-padding-60 clearfix">
     <div class="container">
         <div class="row align-items-end">
             <!-- Single Blog Area -->

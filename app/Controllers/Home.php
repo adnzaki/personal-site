@@ -19,7 +19,6 @@ class Home extends BaseController
         ];
 
         $content = [
-            'hero'          => view('home/hero'),
             'highlights'    => view('home/highlights', $wrapperContent),
             'recent'        => view('home/recent', $wrapperContent),
         ];
