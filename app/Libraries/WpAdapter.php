@@ -301,6 +301,112 @@ class WpAdapter
         return $result['total'] ?? null;
     }
 
+    public function getCommentsWithReplies(int $postId, int $page = 1, int $perPage = 10)
+    {
+        // Get top-level comments (parent = 0)
+        $comments = $this->call("comments?post={$postId}&parent=0&page={$page}&per_page={$perPage}");
+
+        // For each top-level comment, fetch replies
+        foreach ($comments as &$comment) {
+            $replies = $this->call("comments?parent={$comment->id}");
+            $comment->replies = $replies ?? [];
+        }
+
+        return $comments;
+    }
+
+
+    /**
+     * Add a new comment
+     *
+     * @param int $postId The ID of the post to comment on
+     * @param string $content The comment content
+     * @param array $authorData Optional. For guest comments: ['author_name' => '', 'author_email' => '']
+     * 
+     * @return array|object
+     */
+    public function addComment(int $postId, string $content, array $authorData = [])
+    {
+        $data = [
+            'post'    => $postId,
+            'content' => $content,
+        ];
+
+        // Guest comment handling
+        if (!empty($authorData)) {
+            if (isset($authorData['author_name'])) {
+                $data['author_name'] = $authorData['author_name'];
+            }
+            if (isset($authorData['author_email'])) {
+                $data['author_email'] = $authorData['author_email'];
+            }
+        }
+
+        return $this->call('comments', false, 'POST', $data);
+    }
+
+    /**
+     * Update an existing comment
+     *
+     * @param int $commentId The ID of the comment to update
+     * @param string $content The updated content
+     * 
+     * @return array|object
+     */
+    public function updateComment(int $commentId, string $content)
+    {
+        $data = [
+            'content' => $content,
+        ];
+
+        return $this->call('comments/' . $commentId, false, 'POST', $data);
+    }
+
+    /**
+     * Delete a comment
+     *
+     * @param int $commentId The ID of the comment to delete
+     * @param bool $force Whether to force delete (true) or move to trash (false)
+     * 
+     * @return array|object
+     */
+    public function deleteComment(int $commentId, bool $force = true)
+    {
+        $endpoint = 'comments/' . $commentId . '?force=' . ($force ? 'true' : 'false');
+
+        return $this->call($endpoint, false, 'DELETE');
+    }
+
+    /**
+     * Reply to a specific comment
+     *
+     * @param int $postId   The ID of the parent post
+     * @param int $parentId The ID of the comment being replied to
+     * @param string $content The reply content
+     * @param array $authorData Optional. For guest comments: ['author_name' => '', 'author_email' => '']
+     * 
+     * @return array|object
+     */
+    public function replyComment(int $postId, int $parentId, string $content, array $authorData = [])
+    {
+        $data = [
+            'post'    => $postId,
+            'parent'  => $parentId,
+            'content' => $content,
+        ];
+
+        // Guest comment handling
+        if (!empty($authorData)) {
+            if (isset($authorData['author_name'])) {
+                $data['author_name'] = $authorData['author_name'];
+            }
+            if (isset($authorData['author_email'])) {
+                $data['author_email'] = $authorData['author_email'];
+            }
+        }
+
+        return $this->call('comments', false, 'POST', $data);
+    }
 
     /**
      * Retrieve media details by post ID.
@@ -435,8 +541,10 @@ class WpAdapter
             'url'               => $postURL,
             'author'            => $author->name,
             'authorBio'         => $author->description,
+            'authorImage'       => $author->avatar_urls->{'96'},
             'date'              => $date,
-            'comments'          => count($comments),
+            'comments'          => $comments,
+            'commentsCount'     => count($comments),
         ];
     }
     
@@ -467,13 +575,13 @@ class WpAdapter
      * 
      * @param string $path Path to REST API endpoint
      * @param boolean $withTotal whether to include total post count or not
+     * @param string $method HTTP method: GET | POST | PUT | PATCH | DELETE
+     * @param array $data Data body yang dikirim (untuk POST/PUT/PATCH)
      * 
      * @return array|object
      */
-    public function call(string $path, bool $withTotal = false) 
+    public function call(string $path, bool $withTotal = false, string $method = 'GET', array $data = [])
     {
-
-        // prepare curl
         $ch = curl_init();
 
         // set url 
@@ -489,29 +597,36 @@ class WpAdapter
         // get response header
         curl_setopt($ch, CURLOPT_HEADER, 1);
 
-        // $output contains the output string 
+        // Tentukan metode HTTP
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, strtoupper($method));
+
+        // Jika ada data untuk POST/PUT/PATCH
+        if (!empty($data) && in_array(strtoupper($method), ['POST', 'PUT', 'PATCH'])) {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen(json_encode($data))
+            ]);
+        }
+
+        // Eksekusi
         $response = curl_exec($ch);
         $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
 
         $header = substr($response, 0, $headerSize);
         $body = substr($response, $headerSize);
 
-
         curl_close($ch);
 
-        // Get X-WP-Total from header
-        // Get X-WP-Total from header (more robust)
-        if (preg_match('/X-WP-Total:\s*(\d+)/i', $header, $matches)) {
-            $totalPosts = (int) trim($matches[1]);
-        } else {
-            $totalPosts = null;
-        }
+        // Ambil total jika diperlukan
+        preg_match('/X-WP-Total:\s*(\d+)/i', $header, $matches);
+        $totalPosts = isset($matches[1]) ? (int) $matches[1] : null;
 
         $bodyResult = json_decode($body, $this->responseAsArray);
 
         $output = $withTotal ? [
             'total' => $totalPosts,
-            'data' => $bodyResult,
+            'data'  => $bodyResult,
         ] : $bodyResult;
 
         return $output;
