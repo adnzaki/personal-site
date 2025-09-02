@@ -13,7 +13,7 @@ class Posts extends BaseController
         $search = $this->request->getGet('search');
         $perPage = 10;
 
-        $wp = wp()->setPerPage($perPage)->setSinglePostUrl('read');
+        $wp = wp()->setPerPage($perPage)->setSinglePostUrl($this->singlePostUrl);
 
         // this is not correct
         // fix this!
@@ -52,7 +52,41 @@ class Posts extends BaseController
     {
         $getPost    = wp()->readPost($slug);
         $content    = $getPost['contents'];
-        $id         = $getPost['id'];
-        $this->updateCounter($id);
+        $post       = $content['post'];
+        $this->updateCounter($post->id);
+
+        $pageContent = [
+            'post'          => $post,
+            'tags'          => wp()->getTags(),
+            'comments'      => wp()->getCommentsWithReplies($post->id),
+        ];
+
+        $data = [
+            'title'         => $post->title,
+            'content'       => view('single-post/content', $pageContent),
+        ];
+
+        return view('layout/main', $data);
+    }
+
+    public function testRead($slug)
+    {
+        $getPost    = wp()->readPost($slug);
+        $content    = $getPost['contents'];
+        $post       = $content['post'];
+        $this->updateCounter($post->id);
+
+        $pageContent = [
+            'post'          => $post,
+            'tags'          => wp()->getTags(),
+            'comments'      => wp()->getCommentsWithReplies($post->id),
+        ];
+
+        $data = [
+            'title'         => $post->title,
+            'content'       => $pageContent,
+        ];
+
+        return $this->response->setJSON($data);
     }
 }

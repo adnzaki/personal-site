@@ -6,6 +6,8 @@ trait PostTrait
 {
     private $model;
 
+    private $singlePostUrl = 'read';
+
     public function __construct()
     {
         $this->model = new PostViewModel();
@@ -13,9 +15,10 @@ trait PostTrait
     public function updateCounter($postId)
     {
         if($this->model->where('post_id', $postId)->first() === null) {
-            $this->model->insert(['post_id' => $postId, 'count' => 1]);
+            $this->model->insert(['post_id' => $postId, 'views' => 1]);
         } else {
-            $this->model->where('post_id', $postId)->set('count', 'count + 1')->update();
+            $detail = $this->model->where('post_id', $postId)->first();
+            $this->model->where('post_id', $postId)->set('views', $detail['views'] + 1)->update();
         }
     }
 

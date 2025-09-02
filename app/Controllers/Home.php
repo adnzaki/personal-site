@@ -8,7 +8,7 @@ class Home extends BaseController
 
     public function index(): string
     {
-        $allPosts = wp()->setSinglePostUrl('read')->setPerPage(12)->getPosts(1);
+        $allPosts = wp()->setSinglePostUrl($this->singlePostUrl)->setPerPage(12)->getPosts(1);
         $latestPosts = array_slice($allPosts['data'], 0, 2);
         $recentPosts = array_slice($allPosts['data'], 2, 5);
         $wrapperContent = [

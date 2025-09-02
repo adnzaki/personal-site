@@ -11,3 +11,6 @@ $routes->group('posts', function (RouteCollection $routes) {
     $routes->get('(:any)/(:any)', 'Posts::index/$1/$2'); // handle category and tag filter
     $routes->get('read/(:any)', 'Posts::read/$1');
 });
+
+$routes->get('read/(:any)', 'Posts::read/$1');
+$routes->get('testread/(:any)', 'Posts::testRead/$1');
