@@ -54,11 +54,44 @@ class WpAdapter
      */
     private $responseAsArray = null;
 
+    /**
+     * The sort of the posts
+     * 
+     * @var string
+     */
+    private $sort = 'desc';
+
+    /**
+     * The order by of the posts
+     * 
+     * @var string
+     */
+    private $orderBy = 'date';
+
+    /**
+     * Limit results to these IDs
+     * 
+     * @var array
+     */
+    private $ids = [];
+
+    /**
+     * Create a new instance of the WpAdapter class
+     * 
+     * @param string $baseUrl The base URL of the WordPress REST API
+     */
     public function __construct(string $baseUrl)
     {
         $this->baseUrl = $baseUrl;
     }
 
+    /**
+     * Set the number of posts per page
+     * 
+     * @param int $perPage The number of posts per page
+     * 
+     * @return $this
+     */
     public function setPerPage(int $perPage)
     {
         $this->perPage = $perPage;
@@ -66,6 +99,15 @@ class WpAdapter
         return $this;
     }
     
+    /**
+     * Set the base URL for single post.
+     * 
+     * The base URL is used to generate the URL for each post.
+     * 
+     * @param string $url The base URL for single post.
+     * 
+     * @return $this
+     */
     public function setSinglePostUrl(string $url)
     {
         $this->singlePostBaseUrl = $url;
@@ -73,6 +115,15 @@ class WpAdapter
         return $this;
     }
 
+    /**
+     * Set the excerpt length.
+     * 
+     * The excerpt length is the length of the excerpt in the post object.
+     * 
+     * @param int $length The length of the excerpt.
+     * 
+     * @return $this
+     */
     public function setExcerptLength(int $length)
     {
         $this->excerptLength = $length;
@@ -88,59 +139,112 @@ class WpAdapter
     }
 
     /**
+     * Set the order of the posts
+     * 
+     * @param string $orderBy The column to order by
+     * @param string $sort The direction of the order
+     * 
+     * @return WpAdapter
+     */
+    public function setOrder(string $orderBy, string $sort = 'desc')
+    {
+        $this->orderBy = $orderBy;
+        $this->sort = $sort;
+
+        return $this;
+    }
+
+    /**
+     * Set the IDs of the posts to fetch.
+     * 
+     * @param array $ids The IDs of the posts to fetch.
+     * 
+     * @return $this
+     */
+    public function setIds(array $ids)
+    {
+        $this->ids = $ids;
+
+        return $this;
+    }
+
+    /**
      * Get posts
      * 
-     * @param int $page The page being searched based on total post
-     * @param string $search Limit results based on search parameter
-     * @param string $taxonomy Category | Tag
-     * @param string $filter Category or tag name being searched
-     * @param array $ids Limit results based on post ids
+     * @param int $page             The page being searched based on total post
+     * @param string|null $search   Limit results based on search parameter
+     * @param string $taxonomy      Category | Tag
+     * @param string $filter        Category or tag name being searched
      * 
      * @return array
      */
-    public function getPosts(int $page, $search = '', string $taxonomy = '', string $filter = '', array $ids = [])
+    public function getPosts(int $page, ?string $search = '', string $taxonomy = '', string $filter = ''): array
     {
-        $selectedIds = (empty($ids)) ? '' : '&include=' . implode(',', $ids);
-        $endpoint = 'posts?page=' . $page . '&per_page=' . $this->perPage . $selectedIds;
+        // Base query
+        $query = [
+            'page'     => $page,
+            'per_page' => $this->perPage,
+            'orderby'  => $this->orderBy,
+            'order'    => $this->sort,
+        ];
 
-        if (! empty($search)) $endpoint .= '&search=' . urlencode($search);
+        // Include specific IDs if available
+        if (!empty($this->ids)) {
+            $query['include'] = implode(',', $this->ids);
+        }
 
-        if (! empty($taxonomy)) {
-            if ($taxonomy === 'category') {
-                $categories = $this->call('categories?slug=' . $filter)[0];
-                $endpoint .= '&categories=' . $categories->id;
-            } elseif ($taxonomy === 'tag') {
-                $tag = $this->call('tags?slug=' . $filter)[0];
-                $endpoint .= '&tags=' . $tag->id;
+        // Add search if provided
+        if (!empty($search)) {
+            $query['search'] = $search;
+        }
+
+        // Handle taxonomy filters
+        if (!empty($taxonomy) && !empty($filter)) {
+            switch ($taxonomy) {
+                case 'category':
+                    $categories = $this->getCategories($filter);
+                    if (!empty($categories[0]->id)) {
+                        $query['categories'] = $categories[0]->id;
+                    }
+                    break;
+
+                case 'tag':
+                    $tags = $this->getTags($filter);
+                    if (!empty($tags[0]->id)) {
+                        $query['tags'] = $tags[0]->id;
+                    }
+                    break;
             }
         }
 
+        // Build endpoint
+        $endpoint = 'posts?' . http_build_query($query);
+
+        // Call API
         $posts = $this->call($endpoint);
 
+        // Format response
         $formatted = [];
-        $status = '';
+        $status    = 'post_not_found';
 
         if (is_array($posts)) {
-            if (count($posts) > 0) {
+            if (!empty($posts)) {
                 $status = 'post_found';
-
                 foreach ($posts as $p) {
                     $formatted[] = $this->getPostDetail($p);
                 }
             } else {
                 $status = 'post_empty';
             }
-        } else {
-            $status = 'post_not_found';
         }
 
-        $response = [
-            'status'    => $status,
-            'data'      => $formatted,
+        return [
+            'status' => $status,
+            'data'   => $formatted,
+            'query'  => $endpoint,
         ];
-
-        return $response;
     }
+
 
     /**
      * Get a single post by slug
@@ -176,6 +280,27 @@ class WpAdapter
 
         return $data;
     }
+    /**
+     * Get total posts from WordPress REST API
+     * 
+     * @param array $args Query arguments (search, categories, tags, etc)
+     * @return int|null
+     */
+    public function getTotalPost(array $args = []): ?int
+    {
+        // Build query string
+        $query = http_build_query($args);
+
+        // Endpoint posts + query
+        $endpoint = 'posts' . (!empty($query) ? '?' . $query : '');
+
+        // Call API with total enabled
+        $result = $this->call($endpoint, true);
+
+        // Return total if available
+        return $result['total'] ?? null;
+    }
+
 
     /**
      * Retrieve media details by post ID.
@@ -213,11 +338,16 @@ class WpAdapter
      *
      * Calls the WordPress REST API to fetch all categories.
      *
+     * @param string|null $slug An optional category slug to filter by.
      * @return array A list of objects containing category details, including
      *               IDs, names, and URLs.
      */
-    public function getCategories()
+    public function getCategories(?string $slug = null)
     {
+        if ($slug) {
+            return $this->call('categories?slug=' . $slug);
+        } 
+        
         return $this->call('categories');
     }
 
@@ -229,8 +359,12 @@ class WpAdapter
      * @return array A list of objects containing tag details, including
      *               IDs, names, and URLs.
      */
-    public function getTags()
+    public function getTags(?string $slug = null)
     {
+        if ($slug) {
+            return $this->call('tags?slug=' . $slug);
+        }
+
         return $this->call('tags');
     }
 
@@ -366,8 +500,13 @@ class WpAdapter
         curl_close($ch);
 
         // Get X-WP-Total from header
-        preg_match('/X-WP-Total:\s*(\d+)/i', $header, $matches);
-        $totalPosts = isset($matches[1]) ? (int) $matches[1] : null;
+        // Get X-WP-Total from header (more robust)
+        if (preg_match('/X-WP-Total:\s*(\d+)/i', $header, $matches)) {
+            $totalPosts = (int) trim($matches[1]);
+        } else {
+            $totalPosts = null;
+        }
+
         $bodyResult = json_decode($body, $this->responseAsArray);
 
         $output = $withTotal ? [

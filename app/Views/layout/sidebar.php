@@ -13,11 +13,27 @@
 
         <!-- Widget Area -->
         <div class="sidebar-widget-area">
-            <h5 class="title">Cerita Terhangat</h5>
 
             <div class="widget-content">
+                <h5 class="title">Cerita Terhangat</h5>
 
-                <!-- Single Blog Post -->
+
+                <!-- Popular Posts -->
+                <?php
+                $ids = [];
+                $popularPosts = [];
+                $model = new \App\Models\PostViewModel();
+                $topPosts = $model->orderBy('views', 'desc');
+
+                if ($topPosts->countAllResults(false) > 0) {
+                    $ids = $topPosts->findAll(5);
+                    $ids = array_column($ids, 'post_id');
+                    $popularPosts = wp()->setPerPage(5)
+                        ->setOrder('include')
+                        ->setIds($ids)
+                        ->getPosts(1, '', '', '')['data'];
+                }
+                ?>
                 <?php foreach ($popularPosts as $post) : ?>
                     <div class="single-blog-post d-flex align-items-center widget-post">
                         <!-- Post Thumbnail -->
@@ -46,7 +62,7 @@
                     <?php
                     if (count($tags) > 0) {
                         foreach ($tags as $tag) {
-                            echo '<li><a href="' . base_url('posts?tag=' . $tag->name) . '">' . $tag->name . '</a></li>';
+                            echo '<li><a href="' . base_url('posts/tag/' . $tag->name) . '">' . $tag->name . '</a></li>';
                         }
                     } else {
                         echo '<p>Belum ada tag</p>';

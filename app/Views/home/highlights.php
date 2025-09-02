@@ -8,8 +8,8 @@
                     <!-- Blog Content -->
                     <div class="single-blog-content">
                         <div class="line"></div>
-                        <a href="#" class="post-tag"><?= $latestPosts[0]->categories ?></a>
-                        <h4><a href="#" class="post-headline"><?= $latestPosts[0]->title ?></a></h4>
+                        <a href="" class="post-tag"><?= $latestPosts[0]->categories ?></a>
+                        <h4><a href="<?= $latestPosts[0]->url ?>" class="post-headline"><?= $latestPosts[0]->title ?></a></h4>
                         <p><?= $latestPosts[0]->excerpt ?></p>
                         <!-- <p>Curabitur venenatis efficitur lorem sed tempor. Integer aliquet tempor cursus. Nullam vestibulum convallis risus vel condimentum. Nullam auctor lorem in libero luctus, vel volutpat quam tincidunt. Morbi sodales, dolor id ultricies dictum</p> -->
                         <a href="<?= base_url('posts') ?>" class="btn original-btn">Lihat Semua Cerita</a>
@@ -18,10 +18,11 @@
                 </div>
             </div>
             <!-- Single Blog Area -->
-            <?php $index = 0; foreach (array_slice($latestPosts, 0, 2) as $post) : ?>
+            <?php $index = 0;
+            foreach (array_slice($latestPosts, 0, 2) as $post) : ?>
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-catagory-area clearfix mb-100">
-                        
+
                         <img src="<?= $post->media ?>" alt="<?= $post->title ?>">
                         <!-- Catagory Title -->
                         <div class="catagory-title">
@@ -29,7 +30,8 @@
                         </div>
                     </div>
                 </div>
-            <?php $index++; endforeach; ?>
+            <?php $index++;
+            endforeach; ?>
 
         </div>
     </div>

@@ -22,12 +22,15 @@ trait PostTrait
     public function popularPosts()
     {
         $ids = [];
-        $topPosts = $this->model->orderBy('count', 'desc');
+        $topPosts = $this->model->orderBy('views', 'desc');
 
-        if ($topPosts->countAllResults() > 0) {
+        if ($topPosts->countAllResults(false) > 0) {
             $ids = $topPosts->findAll(5);
             $ids = array_column($ids, 'post_id');
-            $popularPosts = wp()->setPerPage(5)->getPosts(1, '', '', '', $ids)['data'];
+            $popularPosts = wp()->setPerPage(5)
+                            ->setOrder('include')
+                            ->setIds($ids)
+                            ->getPosts(1, '', '', '')['data'];
         }
 
         return $popularPosts ?? [];

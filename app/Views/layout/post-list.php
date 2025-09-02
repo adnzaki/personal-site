@@ -36,16 +36,13 @@
             endforeach; ?>
 
             <!-- Show pagination if this is not homepage -->
-            <?php if($notHome): ?>
-            <div class="col-lg-12 text-center">
-                <div class="space30"></div>
-                <?= $pageLinks ?>
-            </div>
-            <?php endif; ?>
-
-
-            <!-- Load More -->
-            <?php if (! isset($notHome) || !$notHome): ?>
+            <?php if (isset($notHome) && $notHome): ?>
+                <div class="col-lg-12 text-center">
+                    <div class="space30"></div>
+                    <?= $pageLinks ?>
+                </div>
+            <?php else: ?>
+                <!-- Load more -->
                 <div class="load-more-btn mt-100 wow fadeInUp" data-wow-delay="0.7s" data-wow-duration="1000ms">
                     <a href="<?= base_url('posts') ?>" class="btn original-btn">Lihat Semua Cerita</a>
                 </div>

@@ -15,7 +15,18 @@ class Posts extends BaseController
 
         $wp = wp()->setPerPage($perPage)->setSinglePostUrl('read');
 
-        $totalPost = wp()->call('posts', true)['total'];
+        // this is not correct
+        // fix this!
+        $taxonomyFilter = [];
+        if($taxonomy === 'category') {
+            $categories = wp()->getCategories($filter);
+            $taxonomyFilter = ['categories' => $categories[0]->id];
+        } elseif($taxonomy === 'tag') {
+            $tags = wp()->getTags($filter);
+            $taxonomyFilter = ['tags' => $tags[0]->id];
+        }
+
+        $totalPost = wp()->getTotalPost(array_merge(['search' => $search], $taxonomyFilter));
         $posts = $wp->getPosts($page, $search, $taxonomy, $filter);
 
 
@@ -26,7 +37,6 @@ class Posts extends BaseController
             'getPage'       => $page,
             'count'         => $pager->getPageCount(),
             'tags'          => wp()->getTags(),
-            'popularPosts'  => $this->popularPosts(),
             'notHome'       => true,
         ];
 
