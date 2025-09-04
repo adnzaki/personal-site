@@ -1,5 +1,5 @@
 <!-- ##### Sidebar Area ##### -->
-<div class="col-12 col-md-4 col-lg-3">
+<div class="col-12 col-lg-3">
     <div class="post-sidebar-area">
 
         <!-- Widget Area -->
@@ -38,7 +38,9 @@
                     <div class="single-blog-post d-flex align-items-center widget-post">
                         <!-- Post Thumbnail -->
                         <div class="post-thumbnail">
-                            <img src="<?= $post->media ?>" alt="gambar untuk <?= $post->title ?>" class="thumbnail-square">
+                            <a href="<?= $post->url ?>">
+                                <img src="<?= $post->media ?>" alt="gambar untuk <?= $post->title ?>" class="thumbnail-square">
+                            </a>
                         </div>
                         <!-- Post Content -->
                         <div class="post-content">
