@@ -15,25 +15,14 @@
                         </div>
 
                         <!-- Menu -->
-                        <div class="classy-menu">
+                        <!-- <div class="classy-menu">
 
-                            <!-- close btn -->
                             <div class="classycloseIcon">
                                 <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
                             </div>
 
-                            <!-- Nav Start -->
-                            <div class="classynav">
-                                <ul>
-                                    <li><a href="<?= base_url(); ?>">Home</a></li>
-                                    <li><a href="#">Coding</a></li>
-                                    <li><a href="#">Tekno</a></li>
-                                    <li><a href="#">Puisi</a></li>
-                                    <li><a href="#">Contact</a></li>
-                                </ul>
-                            </div>
-                            <!-- Nav End -->
-                        </div>
+                            <?//= view('layout/nav') ?>
+                        </div> -->
                     </nav>
                 </div>
 
@@ -53,7 +42,13 @@
     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
     Copyright &copy;<script>
         document.write(new Date().getFullYear());
-    </script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+    </script> All rights reserved <br />
+    <div class="d-none d-md-block">
+        Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> | Customized with 🔥 by <strong>Bit & Bait</strong>
+    </div>
+    <div class="d-block d-md-none">
+        Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> <br> Customized with 🔥 by <strong>Bit & Bait</strong>
+    </div>
     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 
 </footer>
