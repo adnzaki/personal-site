@@ -22,10 +22,19 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="<?= base_url('style.css') ?>">
     <link rel="stylesheet" href="<?= base_url('custom.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('css/prism.css') ?>">
 
 </head>
 
 <body>
+    <?php if (session()->getFlashdata('success')): ?>
+        <?= view('layout/toast', ['message' => session()->getFlashdata('success'), 'color' => 'success']) ?>
+    <?php endif; ?>
+
+    <?php if (session()->getFlashdata('error')): ?>
+        <?= view('layout/toast', ['message' => session()->getFlashdata('error'), 'color' => 'danger']) ?>
+    <?php endif; ?>
+
     <!-- Preloader -->
     <div id="preloader">
         <div class="preload-content">

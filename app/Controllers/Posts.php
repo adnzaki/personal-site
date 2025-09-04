@@ -69,6 +69,34 @@ class Posts extends BaseController
         return view('layout/main', $data);
     }
 
+    public function addComment()
+    {
+        $postId     = (int) $this->request->getPost('post_id');
+        $parentId   = (int) $this->request->getPost('parent_id');
+        $authorName = $this->request->getPost('name');
+        $authorEmail = $this->request->getPost('email');
+        $message    = $this->request->getPost('message');
+
+        $authorData = [
+            'author_name'  => $authorName,
+            'author_email' => $authorEmail,
+        ];
+
+        if(! filter_disallowed_words($message)) {
+            return redirect()->back()->with('error', 'Komentar anda mengandung kata-kata yang tidak diizinkan.');
+        }
+
+        $result = wp()->addComment($postId, $message, $authorData, $parentId);
+
+        if (isset($result->id)) {
+            return redirect()->back()->with('success', 'Komentar anda berhasil ditambahkan dan menunggu persetujuan admin.');
+        } else {
+            return redirect()->back()->with('error', 'Gagal menambahkan komentar. Penyebab: ' . json_encode($result));
+        }
+    }
+
+
+
     public function testRead($slug)
     {
         $getPost    = wp()->readPost($slug);

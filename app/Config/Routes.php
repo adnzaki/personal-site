@@ -13,4 +13,5 @@ $routes->group('posts', function (RouteCollection $routes) {
 });
 
 $routes->get('read/(:any)', 'Posts::read/$1');
+$routes->post('add-comment', 'Posts::addComment');
 $routes->get('testread/(:any)', 'Posts::testRead/$1');

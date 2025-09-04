@@ -77,7 +77,7 @@
 
                     foreach ($comments as $comment) : ?>
                         <!-- Single Comment Area -->
-                        <li class="single_comment_area">
+                        <li class="single_comment_area" data-id="<?= $comment->id ?>">
                             <!-- Comment Content -->
                             <div class="comment-content d-flex">
                                 <!-- Comment Author -->
@@ -114,17 +114,20 @@
                 </div>
 
 
-                <div class="post-a-comment-area mt-70">
-                    <h5>Leave a reply</h5>
-                    <!-- Reply Form -->
-                    <form action="#" method="post">
+                <!-- Default Comment Form -->
+                <div id="comment-form-wrapper" class="post-a-comment-area mt-70">
+                    <h5 id="comment-form-title">Tinggalkan balasan</h5>
+                    <form action="<?= base_url('add-comment') ?>" method="post" id="comment-form">
+                        <input type="hidden" name="parent_id" id="parent_id" value="0">
+                        <input type="hidden" name="post_id" id="post_id" value="<?= $post->id ?>">
+
                         <div class="row">
                             <div class="col-12 col-md-6">
                                 <div class="group">
                                     <input type="text" name="name" id="name" required>
                                     <span class="highlight"></span>
                                     <span class="bar"></span>
-                                    <label>Name</label>
+                                    <label>Nama</label>
                                 </div>
                             </div>
                             <div class="col-12 col-md-6">
@@ -137,26 +140,20 @@
                             </div>
                             <div class="col-12">
                                 <div class="group">
-                                    <input type="text" name="subject" id="subject" required>
-                                    <span class="highlight"></span>
-                                    <span class="bar"></span>
-                                    <label>Subject</label>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="group">
                                     <textarea name="message" id="message" required></textarea>
                                     <span class="highlight"></span>
                                     <span class="bar"></span>
-                                    <label>Comment</label>
+                                    <label>Komentar</label>
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <button type="submit" class="btn original-btn">Reply</button>
+                            <div class="col-12 d-flex justify-end">
+                                <button type="submit" class="btn original-btn">Kirim</button>
+                                <button type="button" id="cancel-reply" class="btn btn-sm btn-light d-none text-danger ms-2 px-3">Batal</button>
                             </div>
                         </div>
                     </form>
                 </div>
+
             </div>
 
             <?= view('layout/sidebar') ?>

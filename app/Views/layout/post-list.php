@@ -9,7 +9,9 @@
                     <div class="row align-items-center">
                         <div class="col-12 col-md-6">
                             <div class="single-blog-thumbnail">
-                                <img src="<?= $post->media ?>" class="blog-img-landscape" alt="Gambar untuk <?= $post->title ?>">
+                                <a href="<?= $post->url ?>">
+                                    <img src="<?= $post->media ?>" class="blog-img-landscape" alt="Gambar untuk <?= $post->title ?>">
+                                </a>
                                 <div class="post-date">
                                     <a href="<?= $post->url ?>"><?= substr($post->date, 8, 2) ?>
                                         <span><?= preg_replace('/\d+/', '', osdate()->create($post->date)); ?></span>

@@ -301,19 +301,44 @@ class WpAdapter
         return $result['total'] ?? null;
     }
 
+    /**
+     * Get comments for a post with nested replies (unlimited depth)
+     *
+     * @param int $postId
+     * @param int $page
+     * @param int $perPage
+     * @return array
+     */
     public function getCommentsWithReplies(int $postId, int $page = 1, int $perPage = 10)
     {
         // Get top-level comments (parent = 0)
         $comments = $this->call("comments?post={$postId}&parent=0&page={$page}&per_page={$perPage}");
 
-        // For each top-level comment, fetch replies
+        // Attach replies recursively
         foreach ($comments as &$comment) {
-            $replies = $this->call("comments?parent={$comment->id}");
-            $comment->replies = $replies ?? [];
+            $comment->replies = $this->fetchRepliesRecursive($comment->id);
         }
 
         return $comments;
     }
+
+    /**
+     * Recursively fetch replies for a comment
+     *
+     * @param int $parentId
+     * @return array
+     */
+    private function fetchRepliesRecursive(int $parentId): array
+    {
+        $replies = $this->call("comments?parent={$parentId}") ?? [];
+
+        foreach ($replies as &$reply) {
+            $reply->replies = $this->fetchRepliesRecursive($reply->id);
+        }
+
+        return $replies;
+    }
+
 
 
     /**
@@ -321,15 +346,18 @@ class WpAdapter
      *
      * @param int $postId The ID of the post to comment on
      * @param string $content The comment content
-     * @param array $authorData Optional. For guest comments: ['author_name' => '', 'author_email' => '']
+     * @param array $authorData Optional. For guest comments: 
+     *                          ['author_name' => '', 'author_email' => '']
+     * @param int $parentId Optional. The parent comment ID (0 for top-level)
      * 
      * @return array|object
      */
-    public function addComment(int $postId, string $content, array $authorData = [])
+    public function addComment(int $postId, string $content, array $authorData = [], int $parentId = 0)
     {
         $data = [
             'post'    => $postId,
             'content' => $content,
+            'parent'  => $parentId,
         ];
 
         // Guest comment handling
@@ -344,6 +372,7 @@ class WpAdapter
 
         return $this->call('comments', false, 'POST', $data);
     }
+
 
     /**
      * Update an existing comment
