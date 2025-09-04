@@ -8,13 +8,19 @@ class Home extends BaseController
 
     public function index(): string
     {
-        $allPosts = wp()->setSinglePostUrl($this->singlePostUrl)->setPerPage(12)->getPosts(1);
-        $latestPosts = array_slice($allPosts['data'], 0, 2);
-        $recentPosts = array_slice($allPosts['data'], 2, 5);
+        $latestPosts = wp()->setSinglePostUrl($this->singlePostUrl)
+                        ->setPerPage(2)
+                        ->getPosts(1, ['media', 'category']);
+                        
+        $recentPosts = wp()->setSinglePostUrl($this->singlePostUrl)
+                        ->startFrom(2)
+                        ->setPerPage(5)
+                        ->getPosts(1, ['media', 'category', 'comment']);
         $wrapperContent = [
-            'status'        => $allPosts['status'],
-            'latestPosts'   => $latestPosts,
-            'posts'         => $recentPosts,
+            'latestStatus'  => $latestPosts['status'],
+            'recentStatus'  => $recentPosts['status'],
+            'latestPosts'   => $latestPosts['data'],
+            'posts'         => $recentPosts['data'],
             'tags'          => wp()->getTags(),
         ];
 

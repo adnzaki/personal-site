@@ -8,7 +8,7 @@
                     <!-- Blog Content -->
                     <div class="single-blog-content">
                         <div class="line"></div>
-                        <a href="" class="post-tag"><?= $latestPosts[0]->categories ?></a>
+                        <a href="#" class="post-tag"><?= $latestPosts[0]->categories ?></a>
                         <h4><a href="<?= $latestPosts[0]->url ?>" class="post-headline"><?= $latestPosts[0]->title ?></a></h4>
                         <p><?= $latestPosts[0]->excerpt ?></p>
                         <!-- <p>Curabitur venenatis efficitur lorem sed tempor. Integer aliquet tempor cursus. Nullam vestibulum convallis risus vel condimentum. Nullam auctor lorem in libero luctus, vel volutpat quam tincidunt. Morbi sodales, dolor id ultricies dictum</p> -->

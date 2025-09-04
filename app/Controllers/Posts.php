@@ -27,7 +27,8 @@ class Posts extends BaseController
         }
 
         $totalPost = wp()->getTotalPost(array_merge(['search' => $search], $taxonomyFilter));
-        $posts = $wp->getPosts($page, $search, $taxonomy, $filter);
+        $include = ['media', 'category', 'comment'];
+        $posts = $wp->getPosts($page, $include, $search, $taxonomy, $filter);
 
 
         $pageContent = [
@@ -50,9 +51,7 @@ class Posts extends BaseController
 
     public function read($slug)
     {
-        $getPost    = wp()->readPost($slug);
-        $content    = $getPost['contents'];
-        $post       = $content['post'];
+        $post = wp()->readPost($slug);;
         $this->updateCounter($post->id);
 
         $pageContent = [

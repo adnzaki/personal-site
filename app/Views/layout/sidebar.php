@@ -29,9 +29,10 @@
                     $ids = $topPosts->findAll(5);
                     $ids = array_column($ids, 'post_id');
                     $popularPosts = wp()->setPerPage(5)
+                        ->setSinglePostUrl('read')
                         ->setOrder('include')
                         ->setIds($ids)
-                        ->getPosts(1, '', '', '')['data'];
+                        ->getPosts(1, ['media', 'category'])['data'];
                 }
                 ?>
                 <?php foreach ($popularPosts as $post) : ?>

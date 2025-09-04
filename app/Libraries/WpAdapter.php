@@ -76,6 +76,13 @@ class WpAdapter
     private $ids = [];
 
     /**
+     * The offset of the posts
+     * 
+     * @var int
+     */
+    private $offset = 0;
+
+    /**
      * Create a new instance of the WpAdapter class
      * 
      * @param string $baseUrl The base URL of the WordPress REST API
@@ -95,6 +102,20 @@ class WpAdapter
     public function setPerPage(int $perPage)
     {
         $this->perPage = $perPage;
+
+        return $this;
+    }
+
+    /**
+     * Set the offset of the posts. This is useful for pagination.
+     * 
+     * @param int $offset The offset of the posts
+     * 
+     * @return $this
+     */
+    public function startFrom(int $offset)
+    {
+        $this->offset = $offset;
 
         return $this;
     }
@@ -172,17 +193,19 @@ class WpAdapter
      * Get posts
      * 
      * @param int $page             The page being searched based on total post
+     * @param string $scope         Limit query based on scope
      * @param string|null $search   Limit results based on search parameter
      * @param string $taxonomy      Category | Tag
      * @param string $filter        Category or tag name being searched
      * 
      * @return array
      */
-    public function getPosts(int $page, ?string $search = '', string $taxonomy = '', string $filter = ''): array
+    public function getPosts(int $page, array $include, ?string $search = '', string $taxonomy = '', string $filter = ''): array
     {
         // Base query
         $query = [
             'page'     => $page,
+            'offset'   => $this->offset,
             'per_page' => $this->perPage,
             'orderby'  => $this->orderBy,
             'order'    => $this->sort,
@@ -231,7 +254,7 @@ class WpAdapter
             if (!empty($posts)) {
                 $status = 'post_found';
                 foreach ($posts as $p) {
-                    $formatted[] = $this->getPostDetail($p);
+                    $formatted[] = $this->getPostDetail($p, $include);
                 }
             } else {
                 $status = 'post_empty';
@@ -250,36 +273,17 @@ class WpAdapter
      * Get a single post by slug
      *
      * @param string $slug
-     * @param int $perPage
      * 
-     * @return array
+     * @return object
      */
-    public function readPost($slug, $perPage = null)
+    public function readPost($slug)
     {
         $post = $this->call('posts?slug=' . $slug)[0];
-        $postDetail = $this->getPostDetail($post);
+        $postDetail = $this->getPostDetail($post, ['author', 'media', 'comment', 'category', 'tag']);
 
-        // get recent posts to display it in the sidebar
-        $this->perPage = $perPage ?? $this->perPage;
-        $recentPosts = $this->getPosts(1);
-
-        $contentData = [
-            'post'          => $postDetail,
-            'recentPosts'   => $recentPosts['data'], // recent posts data
-            'recentStatus'  => $recentPosts['status'], // recent posts status
-            'categories'    => $this->call('categories'),
-            'tags'          => $this->call('tags'),
-        ];
-
-        $data = [
-            'id'            => $postDetail->id,
-            'pageTitle'     => $postDetail->title,
-            'contents'      => $contentData,
-            'wpURL'         => $this->baseUrl,
-        ];
-
-        return $data;
+        return $postDetail;
     }
+
     /**
      * Get total posts from WordPress REST API
      * 
@@ -507,70 +511,86 @@ class WpAdapter
      * Get a single post by id
      *
      * @param object $post
+     * @param array $include Limit query to be included in the response
      *
      * @return object
      */
-    private function getPostDetail($post)
+    private function getPostDetail($post, array $include = [])
     {
         $postImage = '';
         $singlePostImage = '';
         $thumbnail = '';
 
-        if ($post->featured_media !== 0) {
-            $media = $this->call('media/' . $post->featured_media);
-            $postImage = $media->media_details->sizes->large->source_url ?? $media->media_details->sizes->full->source_url;
-            $thumbnail = $media->media_details->sizes->medium->source_url;
-            $singlePostImage = $media->media_details->sizes->full->source_url;
+        if(in_array('media', $include)) {
+            if ($post->featured_media !== 0) {
+                $media = $this->call('media/' . $post->featured_media);
+                $postImage = $media->media_details->sizes->large->source_url ?? $media->media_details->sizes->full->source_url;
+                $thumbnail = $media->media_details->sizes->medium->source_url;
+                $singlePostImage = $media->media_details->sizes->full->source_url;
+            }
         }
 
-        $author = $this->call('users/' . $post->author);
+        if(in_array('author', $include)) {
+            $author = $this->call('users/' . $post->author);
+        }
+
         $date = explode('T', $post->date)[0];
-        $comments = $this->call('comments?post=' . $post->id);
+
+        $comments = [];
+
+        if(in_array('comment', $include)) {
+            $comments = $this->call('comments?post=' . $post->id);
+        }
 
         $categories = 'Tidak berkategori';
         $categoriesAsArray = [];
         $tags = [];
 
-        if (count($post->categories) > 0) {
-            $postCategories = $this->call('categories?post=' . $post->id);
-            $categoriesAsArray = $postCategories;
-
-            if (count($postCategories) < 2) {
-                $categories = $postCategories[0]->name;
-            } else {
-                $categoriesToArray = [];
-                foreach ($postCategories as $pc) {
-                    $categoriesToArray[] = $pc->name;
+        if(in_array('category', $include)) {
+            if (count($post->categories) > 0) {
+                $postCategories = $this->call('categories?post=' . $post->id);
+                $categoriesAsArray = $postCategories;
+    
+                if (count($postCategories) < 2) {
+                    $categories = $postCategories[0]->name;
+                } else {
+                    $categoriesToArray = [];
+                    foreach ($postCategories as $pc) {
+                        $categoriesToArray[] = $pc->name;
+                    }
+    
+                    $categories = implode(', ', $categoriesToArray);
                 }
-
-                $categories = implode(', ', $categoriesToArray);
             }
         }
 
-        if (count($post->tags) > 0) {
-            $tags = $this->call('tags?post=' . $post->id);
+        if(in_array('tag', $include)) {
+            if (count($post->tags) > 0) {
+                $tags = $this->call('tags?post=' . $post->id);
+            }
         }
 
         $postURL = base_url($this->singlePostBaseUrl . '/' . $post->slug);
 
-        $renderedContent = strip_tags($post->content->rendered);
-        $ellipsis = strlen($renderedContent) > $this->excerptLength ? '...' : '';
+        $excerpt = substr(strip_tags($post->excerpt->rendered), 0, $this->excerptLength);
+        $ellipsis = strlen($excerpt) > $this->excerptLength ? '...' : '';
+
 
         return (object)[
             'id'                => $post->id,
             'title'             => $post->title->rendered,
-            'excerpt'           => substr($renderedContent, 0, $this->excerptLength) . $ellipsis,
+            'excerpt'           => $excerpt . $ellipsis,
             'content'           => $post->content->rendered,
-            'media'             => $postImage,
-            'thumbnail'         => $thumbnail,
-            'singlePostImage'   => $singlePostImage,
-            'categories'        => $categories, // categories rendered to string for post list
-            'categoriesArray'   => $categoriesAsArray, // categories using array of objects for single post
-            'tags'              => $tags, // tags using array of objects
+            'media'             => $postImage ?? '',
+            'thumbnail'         => $thumbnail ?? '',
+            'singlePostImage'   => $singlePostImage ?? '',
+            'categories'        => $categories ?? '', // categories rendered to string for post list
+            'categoriesArray'   => $categoriesAsArray ?? [], // categories using array of objects for single post
+            'tags'              => $tags ?? [], // tags using array of objects
             'url'               => $postURL,
-            'author'            => $author->name,
-            'authorBio'         => $author->description,
-            'authorImage'       => $author->avatar_urls->{'96'},
+            'author'            => $author->name ?? '',
+            'authorBio'         => $author->description ?? '',
+            'authorImage'       => $author->avatar_urls->{'96'} ?? '',
             'date'              => $date,
             'comments'          => $comments,
             'commentsCount'     => count($comments),

@@ -27,7 +27,7 @@
                                 <h4><a href="<?= $post->url ?>" class="post-headline"><?= $post->title ?></a></h4>
                                 <p><?= $post->excerpt ?></p>
                                 <div class="post-meta">
-                                    <p>Oleh <a href="<?= $post->url ?>"><?= $post->author ?></a></p>
+                                    <!-- <p>Oleh <a href="<?//= $post->url ?>"><?//= $post->author ?></a></p> -->
                                     <p><?= $post->commentsCount > 0 ? $post->commentsCount . ' komentar' : 'Tidak ada komentar.' ?></p>
                                 </div>
                             </div>
