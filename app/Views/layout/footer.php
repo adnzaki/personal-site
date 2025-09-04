@@ -10,9 +10,9 @@
                     <nav class="classy-navbar justify-content-center">
 
                         <!-- Navbar Toggler -->
-                        <div class="classy-navbar-toggler">
+<!--                         <div class="classy-navbar-toggler">
                             <span class="navbarToggler"><span></span><span></span><span></span></span>
-                        </div>
+                        </div> -->
 
                         <!-- Menu -->
                         <!-- <div class="classy-menu">
