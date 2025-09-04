@@ -14,7 +14,9 @@
                     <!-- Subscribe btn -->
                     <div class="subscribe-btn">
                         <!-- <a href="#" class="btn subscribe-btn" data-toggle="modal" data-target="#subsModal">Subscribe</a> -->
-                        <img src="<?= base_url('img/core-img/small-logo.png') ?>" alt="">
+                         <a href="<?= base_url() ?>">
+                            <img src="<?= base_url('img/core-img/small-logo.png') ?>" alt="">
+                         </a>
                     </div>
 
                     <!-- Navbar Toggler -->
