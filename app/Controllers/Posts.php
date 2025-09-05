@@ -61,7 +61,7 @@ class Posts extends BaseController
         $pageContent = [
             'post'          => $post,
             'tags'          => wp()->getTags(),
-            'comments'      => $comments;
+            'comments'      => $comments
         ];
 
         $data = [
