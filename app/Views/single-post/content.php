@@ -1,4 +1,5 @@
 <!-- ##### Single Blog Area Start ##### -->
+<?php if(! empty($post)): ?>
 <div class="single-blog-wrapper section-padding-0-100">
 
     <!-- Single Blog Area  -->
@@ -163,3 +164,6 @@
     </div>
 </div>
 <!-- ##### Single Blog Area End ##### -->
+<?php else: ?>
+<h2>Post tidak ditemukan</h2>
+<?php endif; ?>
