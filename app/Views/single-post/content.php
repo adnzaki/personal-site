@@ -165,5 +165,12 @@
 </div>
 <!-- ##### Single Blog Area End ##### -->
 <?php else: ?>
-<h2>Post tidak ditemukan</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2>Post tidak ditemukan</h2>
+        </div>
+    </div>
+</div>
+
 <?php endif; ?>
