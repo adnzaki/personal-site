@@ -51,8 +51,10 @@ class Posts extends BaseController
 
     public function read($slug)
     {
-        $post = wp()->readPost($slug);;
-        $this->updateCounter($post->id);
+        $post = wp()->readPost($slug);
+        if(! empty($post)) {
+            $this->updateCounter($post->id);
+        }
 
         $pageContent = [
             'post'          => $post,
@@ -61,7 +63,7 @@ class Posts extends BaseController
         ];
 
         $data = [
-            'title'         => $post->title,
+            'title'         => $post->title ?? 'Post tidak ditemukan',
             'content'       => view('single-post/content', $pageContent),
         ];
 
