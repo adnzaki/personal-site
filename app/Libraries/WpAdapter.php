@@ -278,8 +278,11 @@ class WpAdapter
      */
     public function readPost($slug)
     {
-        $post = $this->call('posts?slug=' . $slug)[0];
-        $postDetail = $this->getPostDetail($post, ['author', 'media', 'comment', 'category', 'tag']);
+        $postDetail = [];
+        $post = $this->call('posts?slug=' . $slug);
+        if(! empty($post)) {
+            $postDetail = $this->getPostDetail($post[0], ['author', 'media', 'comment', 'category', 'tag']);
+        }
 
         return $postDetail;
     }
@@ -524,9 +527,11 @@ class WpAdapter
         if(in_array('media', $include)) {
             if ($post->featured_media !== 0) {
                 $media = $this->call('media/' . $post->featured_media);
-                $postImage = $media->media_details->sizes->large->source_url ?? $media->media_details->sizes->full->source_url;
-                $thumbnail = $media->media_details->sizes->medium->source_url;
-                $singlePostImage = $media->media_details->sizes->full->source_url;
+                if(! empty($media->media_details)) {
+                    $postImage = $media->media_details->sizes->large->source_url ?? $media->media_details->sizes->full->source_url;
+                    $thumbnail = $media->media_details->sizes->medium->source_url;
+                    $singlePostImage = $media->media_details->sizes->full->source_url;
+                }
             }
         }
 
