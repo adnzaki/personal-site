@@ -86,7 +86,7 @@ class Posts extends BaseController
         ];
 
         if(! filter_disallowed_words($message)) {
-            return redirect()->back()->with('error'r anda mengandung kata-kata yang tidak diizinkan.');
+            return redirect()->back()->with('error', 'Komentar anda mengandung kata-kata yang tidak diizinkan.');
         }
 
         $result = wp()->addComment($postId, $message, $authorData, $parentId);
