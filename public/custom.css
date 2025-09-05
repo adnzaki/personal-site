@@ -117,6 +117,28 @@ ul.tags {
     margin-bottom: 20px !important;
 }
 
+ol.wp-block-list li,
+ul.wp-block-list li {
+    margin-bottom: 3px !important;
+    font-size: 14px;
+    font-family: "Open Sans", sans-serif;
+}
+
+.single-blog-wrapper .single-blog-area .single-blog-content p,
+ol.wp-block-list li,
+ul.wp-block-list li {
+    color: #393939;
+    text-align: justify;
+}
+
+ol.wp-block-list li {
+    list-style: decimal !important;
+}
+
+ul.wp-block-list li {
+    list-style: disc !important;
+}
+
 @media(max-width: 576px) {
     .sticky-nav {
         padding: 0 20px !important;
