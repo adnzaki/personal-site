@@ -52,14 +52,16 @@ class Posts extends BaseController
     public function read($slug)
     {
         $post = wp()->readPost($slug);
+        $comments = [];
         if(! empty($post)) {
             $this->updateCounter($post->id);
+            $comments = wp()->getCommentsWithReplies($post->id);
         }
 
         $pageContent = [
             'post'          => $post,
             'tags'          => wp()->getTags(),
-            'comments'      => wp()->getCommentsWithReplies($post->id),
+            'comments'      => $comments;
         ];
 
         $data = [
@@ -84,7 +86,7 @@ class Posts extends BaseController
         ];
 
         if(! filter_disallowed_words($message)) {
-            return redirect()->back()->with('error', 'Komentar anda mengandung kata-kata yang tidak diizinkan.');
+            return redirect()->back()->with('error'r anda mengandung kata-kata yang tidak diizinkan.');
         }
 
         $result = wp()->addComment($postId, $message, $authorData, $parentId);
