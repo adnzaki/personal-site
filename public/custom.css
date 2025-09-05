@@ -121,14 +121,32 @@ ol.wp-block-list li,
 ul.wp-block-list li {
     margin-bottom: 3px !important;
     font-size: 14px;
-    font-family: "Open Sans", sans-serif;
 }
 
+.single-blog-wrapper .single-blog-area .single-blog-content p {
+    margin-bottom: 20px !important;
+    font-size: 14px;
+}
+
+.single-blog-wrapper .single-blog-area .single-blog-content h1,
+.single-blog-wrapper .single-blog-area .single-blog-content h2,
+.single-blog-wrapper .single-blog-area .single-blog-content h3,
+.single-blog-wrapper .single-blog-area .single-blog-content h4,
+.single-blog-wrapper .single-blog-area .single-blog-content h5,
+.single-blog-wrapper .single-blog-area .single-blog-content h6,
 .single-blog-wrapper .single-blog-area .single-blog-content p,
 ol.wp-block-list li,
 ul.wp-block-list li {
     color: #393939;
     text-align: justify;
+    font-family: "Open Sans", sans-serif;
+}
+
+.single-blog-area .single-blog-content .post-meta p {
+    font-size: 9px;
+    text-transform: uppercase;
+    color: #000000;
+    letter-spacing: 3px;
 }
 
 ol.wp-block-list li {
