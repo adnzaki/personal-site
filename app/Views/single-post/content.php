@@ -168,7 +168,7 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <h2>Post tidak ditemukan</h2>
+            <h2 class="text-center mt-5">Post tidak ditemukan</h2>
         </div>
     </div>
 </div>
