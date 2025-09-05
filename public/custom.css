@@ -149,12 +149,20 @@ ul.wp-block-list li {
     letter-spacing: 3px;
 }
 
+.single-blog-area .single-blog-content {
+    padding-right: 5px;
+}
+
 ol.wp-block-list li {
     list-style: decimal !important;
 }
 
 ul.wp-block-list li {
     list-style: disc !important;
+}
+
+.classynav  ul {
+    padding-left: 0 !important;
 }
 
 @media(max-width: 576px) {
