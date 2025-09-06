@@ -21,9 +21,12 @@ class SiteVisitorModel extends Model
     public function insertVisitor()
     {
         $request = Services::request();
+        $agent = $request->getUserAgent();
+        $platform = $agent->getPlatform();  
+        $browser = $agent->getBrowser() . ' ' . $agent->getVersion();
         $this->insert([
             'ip_address'     => $request->getIPAddress(),
-            'user_agent'     => $request->getUserAgent(),
+            'user_agent'     => $browser . ' (' . $platform . ')',
             'visited_url'    => $request->getUri(),
             'referrer'       => $request->getServer('HTTP_REFERER'),
             'created_at'     => date('Y-m-d H:i:s'),
