@@ -8,6 +8,7 @@ class Home extends BaseController
 
     public function index(): string
     {
+        insert_visitor();
         $latestPosts = wp()->setSinglePostUrl($this->singlePostUrl)
                         ->setPerPage(2)
                         ->getPosts(1, ['media', 'category']);

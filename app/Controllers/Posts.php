@@ -8,6 +8,7 @@ class Posts extends BaseController
 
     public function index($taxonomy = '', $filter = '')
     {
+        insert_visitor();
         $pager = \Config\Services::pager();
         $page = (int) ($this->request->getGet('page') ?? 1);
         $search = $this->request->getGet('search');
@@ -54,6 +55,9 @@ class Posts extends BaseController
         $post = wp()->readPost($slug);
         $comments = [];
         if(! empty($post)) {
+            // add visitor data if the post is found
+            insert_visitor();
+            
             $this->updateCounter($post->id);
             $comments = wp()->getCommentsWithReplies($post->id);
         }

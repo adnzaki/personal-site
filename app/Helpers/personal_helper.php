@@ -1,4 +1,17 @@
 <?php
+if (! function_exists('insert_visitor')) {
+    /**
+     * Insert new site visitor
+     *
+     * @return void
+     */
+    function insert_visitor()
+    {
+        $visitor = new \App\Models\SiteVisitorModel;
+        $visitor->insertVisitor();
+    }
+}
+
 if (! function_exists('filter_disallowed_words')) {
     /**
      * Check if a given text contains disallowed words
