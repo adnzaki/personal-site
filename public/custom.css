@@ -165,6 +165,12 @@ ul.wp-block-list li {
     padding-left: 0 !important;
 }
 
+blockquote.wp-block-quote p {
+    /* font-size: 18px; */
+    border-left: solid;
+    padding: 10px 0 10px 10px;
+}
+
 @media(max-width: 576px) {
     .sticky-nav {
         padding: 0 20px !important;
