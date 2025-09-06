@@ -9,4 +9,5 @@ class PostViewModel extends Model
     protected $allowedFields = ['id', 'post_id', 'views'];
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
+    protected $useTimestamps = true;
 }
