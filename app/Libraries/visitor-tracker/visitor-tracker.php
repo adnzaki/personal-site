@@ -1,0 +1,104 @@
+<?php
+/*
+Plugin Name: Site Visitors Tracker
+Description: Plugin khusus website Bit & Bait untuk menampilkan kunjungan website
+Version:     1.0
+Author:      Adnan Zaki
+*/
+
+if (! defined('ABSPATH')) {
+    exit;
+}
+
+class Visitor_Tracker
+{
+    private $table;
+    private $per_page = 25;
+
+    public function __construct()
+    {
+        global $wpdb;
+        $this->table = 'site_visitors';
+
+        add_action('admin_menu', [$this, 'add_admin_menu']);
+    }
+
+    public function add_admin_menu()
+    {
+        add_menu_page(
+            'Site Visitors',
+            'Site Visitors',
+            'manage_options',
+            'site-visitors-tracker',
+            [$this, 'render_admin_page'],
+            'dashicons-chart-area', // Icon bawaan WordPress
+            25 // Posisi menu (semakin kecil, semakin atas)
+
+        );
+    }
+
+    public function render_admin_page()
+    {
+        global $wpdb;
+
+        $current_page = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
+        $offset       = ($current_page - 1) * $this->per_page;
+
+        $total_items = $wpdb->get_var("SELECT COUNT(*) FROM {$this->table}");
+        $total_pages = ceil($total_items / $this->per_page);
+
+        $results = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT id, ip_address, user_agent, visited_url, referrer, created_at
+                 FROM {$this->table}
+                 ORDER BY created_at DESC
+                 LIMIT %d OFFSET %d",
+                $this->per_page,
+                $offset
+            ),
+            ARRAY_A
+        );
+
+        echo '<div class="wrap"><h1>Bit & Bait - Site Visitors</h1>';
+
+        if (empty($results)) {
+            echo '<p><em>Belum ada data pengunjung.</em></p>';
+        } else {
+            echo '<table class="widefat fixed striped">';
+            echo '<thead><tr>
+                    <th>ID</th>
+                    <th>IP Address</th>
+                    <th>User Agent</th>
+                    <th>Visited URL</th>
+                    <th>Referrer</th>
+                    <th>Waktu</th>
+                  </tr></thead><tbody>';
+
+            foreach ($results as $row) {
+                echo '<tr>';
+                echo '<td>' . esc_html($row['id']) . '</td>';
+                echo '<td>' . esc_html($row['ip_address']) . '</td>';
+                echo '<td>' . esc_html($row['user_agent']) . '</td>';
+                echo '<td><a href="' . esc_url($row['visited_url']) . '" target="_blank">' . esc_html($row['visited_url']) . '</a></td>';
+                echo '<td><a href="' . esc_url($row['referrer']) . '" target="_blank">' . esc_html($row['referrer']) . '</a></td>';
+                echo '<td>' . ($row['created_at'] ? esc_html($row['created_at']) : '<em>—</em>') . '</td>';
+                echo '</tr>';
+            }
+
+            echo '</tbody></table>';
+
+            // Pagination
+            echo '<div style="margin-top:20px;">';
+            for ($i = 1; $i <= $total_pages; $i++) {
+                $class = ($i === $current_page) ? 'style="font-weight:bold;"' : '';
+                $url   = add_query_arg('paged', $i);
+                echo '<a href="' . esc_url($url) . '" ' . $class . '>Halaman ' . $i . '</a> ';
+            }
+            echo '</div>';
+        }
+
+        echo '</div>';
+    }
+}
+
+new Visitor_Tracker();
