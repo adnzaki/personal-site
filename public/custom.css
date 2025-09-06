@@ -126,6 +126,7 @@ ul.wp-block-list li {
 .single-blog-wrapper .single-blog-area .single-blog-content p {
     margin-bottom: 20px !important;
     font-size: 14px;
+    text-align: justify;
 }
 
 .single-blog-wrapper .single-blog-area .single-blog-content h1,
@@ -138,7 +139,6 @@ ul.wp-block-list li {
 ol.wp-block-list li,
 ul.wp-block-list li {
     color: #393939;
-    text-align: justify;
     font-family: "Open Sans", sans-serif;
 }
 
