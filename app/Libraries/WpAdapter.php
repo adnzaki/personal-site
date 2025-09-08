@@ -83,6 +83,20 @@ class WpAdapter
     private $offset = 0;
 
     /**
+     * The tag slug
+     * 
+     * @var string
+     */
+    private $tag = '';
+
+    /**
+     * The category slug
+     * 
+     * @var string
+     */
+    private $category = '';
+
+    /**
      * Create a new instance of the WpAdapter class
      * 
      * @param string $baseUrl The base URL of the WordPress REST API
@@ -225,14 +239,14 @@ class WpAdapter
         if (!empty($taxonomy) && !empty($filter)) {
             switch ($taxonomy) {
                 case 'category':
-                    $categories = $this->getCategories($filter);
+                    $categories = $this->categorySlug($filter)->getCategories(1);
                     if (!empty($categories[0]->id)) {
                         $query['categories'] = $categories[0]->id;
                     }
                     break;
 
                 case 'tag':
-                    $tags = $this->getTags($filter);
+                    $tags = $this->tagSlug($filter)->getTags(1);
                     if (!empty($tags[0]->id)) {
                         $query['tags'] = $tags[0]->id;
                     }
@@ -475,39 +489,74 @@ class WpAdapter
         return $formatted;
     }
 
+    public function categorySlug(string $slug)
+    {
+        $this->category = $slug;
+
+        return $this;
+    }
+
     /**
      * Retrieves a list of all categories.
      *
      * Calls the WordPress REST API to fetch all categories.
      *
-     * @param string|null $slug An optional category slug to filter by.
+     * @param int $perPage The number of categories to retrieve per page.
+     * @param string $orderBy The field to order the categories by.
+     * @param string $order The order of the categories (asc or desc).
+     * 
      * @return array A list of objects containing category details, including
      *               IDs, names, and URLs.
      */
-    public function getCategories(?string $slug = null)
+    public function getCategories(int $perPage = 10, string $orderBy = 'name', string $order = 'asc')
     {
-        if ($slug) {
-            return $this->call('categories?slug=' . $slug);
+        $query = http_build_query([
+            'per_page' => $perPage,
+            'orderby'  => $orderBy,
+            'order'    => $order,
+        ]);
+
+        if ($this->category) {
+            if ($this->tag) {
+                $query['slug'] = $this->category;
+            }
         } 
         
-        return $this->call('categories');
+        return $this->call('categories?' . $query);
+    }
+
+    public function tagSlug(string $slug)
+    {
+        $this->tag = $slug;
+
+        return $this;
     }
 
     /**
      * Retrieves a list of all tags.
      *
      * Calls the WordPress REST API to fetch all tags.
+     * 
+     * @param int $perPage The number of tags to retrieve per page.
+     * @param string $orderBy The field to order the tags by.
+     * @param string $order The order of the tags (asc or desc).
      *
      * @return array A list of objects containing tag details, including
      *               IDs, names, and URLs.
      */
-    public function getTags(?string $slug = null)
+    public function getTags(int $perPage = 10, string $orderBy = 'count', string $order = 'desc')
     {
-        if ($slug) {
-            return $this->call('tags?slug=' . $slug);
+        $query = http_build_query([
+            'per_page' => $perPage,
+            'orderby'  => $orderBy,
+            'order'    => $order,
+        ]);
+
+        if ($this->tag) {
+            $query['slug'] = $this->tag;
         }
 
-        return $this->call('tags');
+        return $this->call('tags?' . $query);
     }
 
     /**

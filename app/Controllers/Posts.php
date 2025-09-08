@@ -16,14 +16,12 @@ class Posts extends BaseController
 
         $wp = wp()->setPerPage($perPage)->setSinglePostUrl($this->singlePostUrl);
 
-        // this is not correct
-        // fix this!
         $taxonomyFilter = [];
         if($taxonomy === 'category') {
-            $categories = wp()->getCategories($filter);
+            $categories = wp()->categorySlug($filter)->getCategories(1);
             $taxonomyFilter = ['categories' => $categories[0]->id];
         } elseif($taxonomy === 'tag') {
-            $tags = wp()->getTags($filter);
+            $tags = wp()->tagSlug($filter)->getTags(1);
             $taxonomyFilter = ['tags' => $tags[0]->id];
         }
 
@@ -38,7 +36,7 @@ class Posts extends BaseController
             'pageLinks'     => $pager->makeLinks($page, $perPage, $totalPost, 'site_pager'),
             'getPage'       => $page,
             'count'         => $pager->getPageCount(),
-            'tags'          => wp()->getTags(),
+            'tags'          => wp()->tagSlug($filter)->getTags(),
             'notHome'       => true,
         ];
 
