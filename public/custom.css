@@ -136,6 +136,7 @@ ul.wp-block-list li {
 .single-blog-wrapper .single-blog-area .single-blog-content h5,
 .single-blog-wrapper .single-blog-area .single-blog-content h6,
 .single-blog-wrapper .single-blog-area .single-blog-content p,
+h3.wp-block-heading,
 ol.wp-block-list li,
 ul.wp-block-list li {
     color: #393939;
