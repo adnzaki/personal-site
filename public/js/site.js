@@ -43,15 +43,19 @@ toastList.forEach((toast) => toast.show());
   });
 
   const nav = document.querySelector(".classy-navbar");
+  const logo = document.querySelector(".logo-bit-bait");
   const navHeight = nav.offsetHeight;
   const stickyOffset = 100; // Jarak gulir sebelum menu menjadi "sticky"
 
   window.addEventListener("scroll", function () {
     if (window.pageYOffset > stickyOffset) {
       nav.classList.add("sticky-nav", "scrolled");
+      logo.classList.add("logo-scrolled");
+      console.log(logo)
       document.body.style.paddingTop = navHeight + "px"; // Mencegah halaman "melompat"
     } else {
       nav.classList.remove("sticky-nav", "scrolled");
+      logo.classList.remove("logo-scrolled");
       document.body.style.paddingTop = 0;
     }
   });

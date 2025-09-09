@@ -14,8 +14,10 @@
                     <!-- Subscribe btn -->
                     <div class="subscribe-btn">
                         <!-- <a href="#" class="btn subscribe-btn" data-toggle="modal" data-target="#subsModal">Subscribe</a> -->
+                        <h1 class="text-hidden">Bit & Bait - Penulis kode dan puisi</h1>
+                        <h2 class="text-hidden">Merangkai logika dan rasa dalam tiap baris kode</h2>
                         <a href="<?= base_url() ?>" style="background: none;">
-                            <img src="<?= base_url('img/core-img/small-logo.png') ?>" alt="">
+                            <img class="logo-bit-bait logo-scrolled" src="<?= base_url('img/core-img/small-logo.png') ?>" alt="">
                         </a>
                     </div>
 

@@ -23,6 +23,10 @@
     /* Tambahkan bayangan */
 }
 
+.logo-scrolled {
+    margin-top: -8px;
+}
+
 .single-catagory-area {
     width: 100%;
     height: 490px;
@@ -172,12 +176,21 @@ blockquote.wp-block-quote p {
     padding: 10px 0 10px 10px;
 }
 
+.text-hidden {
+    visibility: hidden;
+    position: fixed;
+}
+
 @media(max-width: 576px) {
     .sticky-nav {
         padding: 0 20px !important;
     }
     blockquote.wp-block-quote p {
         border-left: solid 4px;
+    }
+
+    .logo-scrolled {
+        margin-top: -5px;
     }
 }
 

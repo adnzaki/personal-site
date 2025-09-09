@@ -3,11 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Bit & Bait - Perpaduan antara menulis kode dan puisi">
+    <meta name="description" content="Bit & Bait - Merangkai logika dan rasa dalam tiap baris kode">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
+    <meta name="keywords" content="Bit & Bait, coding, teknologi, blog, puisi, artikel, filsafat, kehidupan, nalar, naluri, pengembangan web, CodeIgniter 4, WordPress REST API, WpAdapter, plugin custom, dokumentasi teknis, storytelling digital, editorial teknologi, performa website, integrasi API, kampung-style coding, branding filosofis, poetry display, absensi sekolah, Actudent, SSPaging, Sync API, Vue, Quasar, Pinia, teknologi pendidikan, web modular, PWA Indonesia">
     <!-- Title -->
     <title><?= $title ?></title>
 
