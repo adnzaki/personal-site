@@ -33,6 +33,7 @@ class Home extends BaseController
         $data = [
             'title'     => 'Bit & Bait - Merangkai logika dan rasa dalam tiap baris kode',
             'content'   => implode('', $content),
+            'og_meta'   => $this->openGraphMeta,
         ];
 
         return view('layout/main', $data);

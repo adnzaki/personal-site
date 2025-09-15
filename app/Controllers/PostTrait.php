@@ -8,9 +8,16 @@ trait PostTrait
 
     private $singlePostUrl = 'read';
 
+    private $openGraphMeta = [];
+
     public function __construct()
     {
         $this->model = new PostViewModel();
+        $this->openGraphMeta = [
+            'title'         => 'Bit & Bait',
+            'description'   => 'Merangkai logika dan rasa dalam tiap baris kode',
+            'image'         => base_url('img/core-img/Bit-Bait-LogoFull.png'),
+        ];
     }
     public function updateCounter($postId)
     {

@@ -42,6 +42,7 @@ class Posts extends BaseController
 
         $data = [
             'title'         => 'Bit & Bait - Semua Post',
+            'og_meta'       => $this->openGraphMeta,
             'content'       => view('layout/post-list', $pageContent),
         ];
 
@@ -66,8 +67,17 @@ class Posts extends BaseController
             'comments'      => $comments
         ];
 
+        $postTitle = $post->title ?? 'Post tidak ditemukan';
+
+        $openGraphMeta = [
+            'title'         => $postTitle,
+            'image'         => $post->singlePostImage,
+            'description'   => $post->excerpt,
+        ];
+
         $data = [
-            'title'         => $post->title ?? 'Post tidak ditemukan',
+            'title'         => $postTitle,
+            'og_meta'       => $openGraphMeta,
             'content'       => view('single-post/content', $pageContent),
         ];
 

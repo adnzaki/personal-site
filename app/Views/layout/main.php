@@ -8,6 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="keywords" content="Bit & Bait, coding, teknologi, blog, puisi, artikel, filsafat, kehidupan, nalar, naluri, pengembangan web, CodeIgniter 4, WordPress REST API, WpAdapter, plugin custom, dokumentasi teknis, storytelling digital, editorial teknologi, performa website, integrasi API, kampung-style coding, branding filosofis, poetry display, absensi sekolah, Actudent, SSPaging, Sync API, Vue, Quasar, Pinia, teknologi pendidikan, web modular, PWA Indonesia">
+    <meta property="og:title" content="<?= $og_meta['title'] ?>">
+    <meta property="og:description" content="<?= $og_meta['description'] ?>">
+    <meta property="og:image" content="<?= $og_meta['image'] ?>">
     <!-- Title -->
     <title><?= $title ?></title>
 
