@@ -97,6 +97,13 @@ class WpAdapter
     private $category = '';
 
     /**
+     * The ellipsis
+     * 
+     * @var string
+     */
+    private $ellipsis = '...';
+
+    /**
      * Create a new instance of the WpAdapter class
      * 
      * @param string $baseUrl The base URL of the WordPress REST API
@@ -104,6 +111,20 @@ class WpAdapter
     public function __construct(string $baseUrl)
     {
         $this->baseUrl = $baseUrl;
+    }
+
+    /**
+     * Set the ellipsis string used when excerpts are truncated.
+     *
+     * @param string $ellipsis The ellipsis string to use.
+     *
+     * @return $this
+     */
+    public function setEllipsis(string $ellipsis)
+    {
+        $this->ellipsis = $ellipsis;
+
+        return $this;
     }
 
     /**
@@ -643,7 +664,7 @@ class WpAdapter
         $postContent = $post->content->rendered;
         $postContentClean = strip_tags($postContent);
         $excerpt = substr($postContentClean, 0, $this->excerptLength);
-        $ellipsis = strlen($excerpt) > strlen($postContentClean) ? '...' : '';
+        $ellipsis = strlen($postContentClean) > $this->excerptLength ? '...' : '';
 
 
         return (object)[
