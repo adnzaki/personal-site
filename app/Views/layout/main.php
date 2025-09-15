@@ -11,6 +11,7 @@
     <meta property="og:title" content="<?= $og_meta['title'] ?>">
     <meta property="og:description" content="<?= $og_meta['description'] ?>">
     <meta property="og:image" content="<?= $og_meta['image'] ?>">
+    <meta property="og:url" content="<?= $og_meta['url'] ?>" />
     <!-- Title -->
     <title><?= $title ?></title>
 

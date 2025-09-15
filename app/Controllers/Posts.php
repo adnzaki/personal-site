@@ -51,7 +51,7 @@ class Posts extends BaseController
 
     public function read($slug)
     {
-        $post = wp()->readPost($slug);
+        $post = wp()->setSinglePostUrl($this->singlePostUrl)->readPost($slug);
         $comments = [];
         if(! empty($post)) {
             // add visitor data if the post is found
@@ -73,6 +73,7 @@ class Posts extends BaseController
             'title'         => $postTitle,
             'image'         => $post->singlePostImage,
             'description'   => $post->excerpt,
+            'url'           => $post->url,
         ];
 
         $data = [

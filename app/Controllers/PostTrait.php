@@ -17,6 +17,7 @@ trait PostTrait
             'title'         => 'Bit & Bait',
             'description'   => 'Merangkai logika dan rasa dalam tiap baris kode',
             'image'         => base_url('img/core-img/Bit-Bait-LogoFull.png'),
+            'url'           => base_url(),
         ];
     }
     public function updateCounter($postId)
