@@ -489,6 +489,12 @@ class WpAdapter
         return $formatted;
     }
 
+    /**
+     * Sets the category slug to be used in the next API call.
+     *
+     * @param string $slug The category slug to be used.
+     * @return self
+     */
     public function categorySlug(string $slug)
     {
         $this->category = $slug;
@@ -510,21 +516,30 @@ class WpAdapter
      */
     public function getCategories(int $perPage = 10, string $orderBy = 'name', string $order = 'asc')
     {
-        $query = http_build_query([
+        $params = [
             'per_page' => $perPage,
             'orderby'  => $orderBy,
             'order'    => $order,
-        ]);
+        ];
 
         if ($this->category) {
             if ($this->tag) {
-                $query['slug'] = $this->category;
+                $params['slug'] = $this->category;
             }
         } 
+
+        $query = http_build_query($params);
         
         return $this->call('categories?' . $query);
     }
 
+    /**
+     * Sets the tag slug to be used in subsequent calls to getTags or getPosts.
+     *
+     * @param string $slug The slug of the tag to be used.
+     *
+     * @return $this
+     */
     public function tagSlug(string $slug)
     {
         $this->tag = $slug;
@@ -546,16 +561,17 @@ class WpAdapter
      */
     public function getTags(int $perPage = 10, string $orderBy = 'count', string $order = 'desc')
     {
-        $query = http_build_query([
+        $params = [
             'per_page' => $perPage,
             'orderby'  => $orderBy,
             'order'    => $order,
-        ]);
+        ];
 
         if ($this->tag) {
-            $query['slug'] = $this->tag;
+            $params['slug'] = $this->tag;
         }
 
+        $query = http_build_query($params);
         return $this->call('tags?' . $query);
     }
 
