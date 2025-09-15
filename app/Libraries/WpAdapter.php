@@ -523,9 +523,7 @@ class WpAdapter
         ];
 
         if ($this->category) {
-            if ($this->tag) {
-                $params['slug'] = $this->category;
-            }
+            $params['slug'] = $this->category;
         } 
 
         $query = http_build_query($params);
