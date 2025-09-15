@@ -640,17 +640,15 @@ class WpAdapter
 
         $postURL = base_url($this->singlePostBaseUrl . '/' . $post->slug);
 
-        $postContent = $post->content->rendered;
-        $postContentClean = strip_tags($postContent);
-        $excerpt = substr($postContentClean, 0, $this->excerptLength);
-        $ellipsis = strlen($excerpt) > strlen($postContentClean) ? '...' : '';
+        $excerpt = substr(strip_tags($post->excerpt->rendered), 0, $this->excerptLength);
+        $ellipsis = strlen($excerpt) > $this->excerptLength ? '...' : '';
 
 
         return (object)[
             'id'                => $post->id,
-            'title'             => $postContent,
+            'title'             => $post->title->rendered,
             'excerpt'           => $excerpt . $ellipsis,
-            'content'           => $postContent,
+            'content'           => $post->content->rendered,
             'media'             => $postImage ?? '',
             'thumbnail'         => $thumbnail ?? '',
             'singlePostImage'   => $singlePostImage ?? '',
