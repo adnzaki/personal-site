@@ -36,7 +36,7 @@ class Posts extends BaseController
             'pageLinks'     => $pager->makeLinks($page, $perPage, $totalPost, 'site_pager'),
             'getPage'       => $page,
             'count'         => $pager->getPageCount(),
-            'tags'          => wp()->tagSlug($filter)->getTags(),
+            'tags'          => wp()->getTags(),
             'notHome'       => true,
         ];
 
