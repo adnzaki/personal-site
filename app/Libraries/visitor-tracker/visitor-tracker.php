@@ -65,6 +65,17 @@ class Visitor_Tracker
             echo '<p><em>Belum ada data pengunjung.</em></p>';
         } else {
             echo '<style>
+                .bb-btn {
+                    padding: 10px 15px;
+                    background: #c4c4c4;
+                    border-radius: 5px;
+                    margin: 0 2px;
+                    text-decoration: none;
+                }
+                .btn-active {
+                    background: #494949;
+                    color: #fff;
+                }
                 @media screen and (max-width: 768px) {
                     table.visitor-table {
                         width: 100%;
@@ -122,9 +133,10 @@ class Visitor_Tracker
             // Pagination
             echo '<div style="margin-top:20px;">';
             for ($i = 1; $i <= $total_pages; $i++) {
-                $class = ($i === $current_page) ? 'style="font-weight:bold;"' : '';
+                $class = ($i === $current_page) ? 'bb-btn btn-active' : 'bb-btn';
+                $style = ($i === $current_page) ? 'style="font-weight:bold;"' : '';
                 $url   = add_query_arg('paged', $i);
-                echo '<a href="' . esc_url($url) . '" ' . $class . '>Halaman ' . $i . '</a> ';
+                echo '<a class="' . $class . '" href="' . esc_url($url) . '" ' . $style . '>' . $i . '</a> ';
             }
             echo '</div>';
         }
