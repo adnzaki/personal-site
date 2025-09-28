@@ -175,6 +175,7 @@ blockquote.wp-block-quote p {
     /* font-size: 18px; */
     border-left: solid;
     padding: 10px 0 10px 10px;
+    line-height: 1rem;
 }
 
 .text-hidden {
