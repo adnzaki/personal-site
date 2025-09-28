@@ -125,6 +125,7 @@ ol.wp-block-list li,
 ul.wp-block-list li {
     margin-bottom: 3px !important;
     font-size: 14px;
+    text-align: justify;
 }
 
 .single-blog-wrapper .single-blog-area .single-blog-content p {
