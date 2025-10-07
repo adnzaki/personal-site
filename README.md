@@ -6,6 +6,11 @@ Install dependencies
 composer install
 ```
 
+Migrate database
+```
+php spark migrate
+```
+
 ## Configuration
 Some configurations are set in `.env` file as describe below:
 - Create a folder for Wordpress installation in your project root (We name it `cms`)
