@@ -183,6 +183,29 @@ blockquote.wp-block-quote p {
     position: fixed;
 }
 
+.wp-block-table table {
+    border-collapse: collapse;
+    width: 100%;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.wp-block-table td {
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.wp-block-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.wp-block-table tr:first-child td {
+    font-weight: bold;
+    background-color: #f0f0f0;
+}
+  
+
 @media(max-width: 576px) {
     .sticky-nav {
         padding: 0 20px !important;
