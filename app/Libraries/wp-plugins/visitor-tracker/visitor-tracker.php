@@ -79,6 +79,14 @@ class Visitor_Tracker_Modern
             /* Desktop table */
             .vt-table-wrap { display:none; }
             @media(min-width:768px){ .vt-table-wrap{display:block;} }
+            .vt-table td.url-col {
+                max-width: 250px;       /* batasi lebar kolom */
+                white-space: normal;    /* izinkan teks turun baris */
+                word-break: break-all;  /* pecah kata panjang */
+                overflow-wrap: anywhere;
+
+            }
+
             table.vt-table { width:100%; border-collapse:collapse; font-size:14px; }
             table.vt-table th, table.vt-table td { padding:12px 14px; border-bottom:1px solid var(--vt-border); text-align:left; }
             table.vt-table th { background:#eef2f7; font-weight:600; color:#111827; }
@@ -142,8 +150,8 @@ class Visitor_Tracker_Modern
                 echo '<td class="vt-mono">' . esc_html($row['id']) . '</td>';
                 echo '<td class="vt-mono">' . esc_html($row['ip_address']) . '</td>';
                 echo '<td>' . esc_html(wp_trim_words($row['user_agent'], 12, '…')) . '</td>';
-                echo '<td><a class="vt-link" href="' . esc_url($row['visited_url']) . '" target="_blank" rel="noopener noreferrer">' . esc_html($row['visited_url']) . '</a></td>';
-                echo '<td><a class="vt-link" href="' . esc_url($row['referrer']) . '" target="_blank" rel="noopener noreferrer">' . esc_html($row['referrer']) . '</a></td>';
+                echo '<td class="url-col"><a class="vt-link" href="' . esc_url($row['visited_url']) . '" target="_blank" rel="noopener noreferrer" title="' . esc_attr($row['visited_url']) . '">' . esc_html($row['visited_url']) . '</a></td>';
+                echo '<td class="url-col"><a class="vt-link" href="' . esc_url($row['referrer']) . '" target="_blank" rel="noopener noreferrer">' . esc_html($row['referrer']) . '</a></td>';
                 echo '<td class="vt-mono">' . ($row['created_at'] ? esc_html($row['created_at']) : '<em>—</em>') . '</td>';
                 echo '</tr>';
             }
