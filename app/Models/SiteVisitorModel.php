@@ -22,10 +22,17 @@ class SiteVisitorModel extends Model
     {
         $request = Services::request();
         $agent = $request->getUserAgent();
-        $platform = $agent->getPlatform();  
+        $platform = $agent->getPlatform();
         $browser = $agent->getBrowser() . ' ' . $agent->getVersion();
+
+        // Ambil IP asli dari header Cloudflare
+        $ip = $request->getServer('HTTP_CF_CONNECTING_IP');
+        if (!$ip) {
+            $ip = $request->getIPAddress(); // fallback ke REMOTE_ADDR
+        }
+
         $this->insert([
-            'ip_address'     => $request->getIPAddress(),
+            'ip_address'     => $ip,
             'user_agent'     => $browser . ' (' . $platform . ')',
             'visited_url'    => $request->getUri(),
             'referrer'       => $request->getServer('HTTP_REFERER'),
