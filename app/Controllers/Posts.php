@@ -13,6 +13,7 @@ class Posts extends BaseController
         $page = (int) ($this->request->getGet('page') ?? 1);
         $search = $this->request->getGet('search');
         $perPage = 10;
+        $offset = ($page - 1) * $perPage;
 
         $wp = wp()->setPerPage($perPage)->setSinglePostUrl($this->singlePostUrl);
 
@@ -27,7 +28,7 @@ class Posts extends BaseController
 
         $totalPost = wp()->getTotalPost(array_merge(['search' => $search], $taxonomyFilter));
         $include = ['media', 'category', 'comment'];
-        $posts = $wp->getPosts($page, $include, $search, $taxonomy, $filter);
+        $posts = $wp->startFrom($offset)->getPosts($page, $include, $search, $taxonomy, $filter);
 
 
         $pageContent = [
