@@ -50,7 +50,7 @@ class Posts extends BaseController
         return view('layout/main', $data);
     }
 
-    public function read($slug)
+    public function read(string $slug)
     {
         $post = wp()->setSinglePostUrl($this->singlePostUrl)->readPost($slug);
         $comments = [];

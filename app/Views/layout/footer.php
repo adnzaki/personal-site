@@ -10,7 +10,7 @@
                     <nav class="classy-navbar justify-content-center">
 
                         <!-- Navbar Toggler -->
-<!--                         <div class="classy-navbar-toggler">
+                        <!--                         <div class="classy-navbar-toggler">
                             <span class="navbarToggler"><span></span><span></span><span></span></span>
                         </div> -->
 
@@ -21,7 +21,8 @@
                                 <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
                             </div>
 
-                            <?//= view('layout/nav') ?>
+                            <? //= view('layout/nav') 
+                            ?>
                         </div> -->
                     </nav>
                 </div>
@@ -44,10 +45,10 @@
         document.write(new Date().getFullYear());
     </script> All rights reserved <br />
     <div class="d-none d-md-block">
-        Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> | Customized with 🔥 by <strong>Bit & Bait</strong>
+        Template by <a href="https://colorlib.com" target="_blank">Colorlib</a> | Coded with <i class="fa fa-heart-o" aria-hidden="true"></i> by <strong>Bit & Bait</strong>
     </div>
     <div class="d-block d-md-none">
-        Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> <br> Customized with 🔥 by <strong>Bit & Bait</strong>
+        Template by <a href="https://colorlib.com" target="_blank">Colorlib</a> <br> Coded with <i class="fa fa-heart-o" aria-hidden="true"></i> by <strong>Bit & Bait</strong>
     </div>
     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 
