@@ -22,6 +22,9 @@
     <link rel="icon" type="image/png" sizes="16x16" href="<?= base_url('img/core-img/favicon-16x16.png') ?>">
     <link rel="manifest" href="/site.webmanifest">
 
+    <!-- Core Stylesheet -->
+    <link rel="stylesheet" href="<?= base_url('css/site.css') ?>">
+
     <!-- Style CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts untuk tipografi modern -->

@@ -1,0 +1,28 @@
+article h1 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin: 0.5rem 0;
+    color: #333;
+}
+
+article h2 {
+    font-size: 1.45rem;
+    font-weight: 600;
+    margin: 0.5rem 0;
+    color: #333;
+}
+
+article h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0.5rem 0;
+    color: #333;
+}
+
+article hr.wp-block-separator {
+    margin: 1rem 0;
+}
+
+article p {
+    text-align: justify;
+}
