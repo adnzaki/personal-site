@@ -37,9 +37,9 @@ trait PostTrait
         $topPosts = $this->model->orderBy('views', 'desc');
 
         if ($topPosts->countAllResults(false) > 0) {
-            $ids = $topPosts->findAll(5);
+            $ids = $topPosts->findAll(7);
             $ids = array_column($ids, 'post_id');
-            $popularPosts = wp()->setPerPage(5)
+            $popularPosts = wp()->setPerPage(7)
                 ->setSinglePostUrl('read')
                 ->setOrder('include')
                 ->setIds($ids)
