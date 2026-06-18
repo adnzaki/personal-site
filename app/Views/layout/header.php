@@ -29,10 +29,10 @@
                 Tekno
             </a>
 
-            <a href="<?= base_url('posts/category/puisi') ?>"
-                class="<?= $active == 'puisi' ? 'text-blue-600 border-b-2 border-blue-600' : 'hover:text-blue-600 transition-colors' ?> pb-1 px-1">
+            <!-- <a href="<?//= base_url('posts/category/puisi') ?>"
+                class="<?//= $active == 'puisi' ? 'text-blue-600 border-b-2 border-blue-600' : 'hover:text-blue-600 transition-colors' ?> pb-1 px-1">
                 Puisi
-            </a>
+            </a> -->
 
             <a href="mailto:vuedevo@gmail.com" class="hover:text-blue-600 transition-colors pb-1 px-1">Contact</a>
         </nav>
@@ -65,10 +65,10 @@
             Nurani
         </a>
 
-        <a href="<?= base_url('posts/category/puisi') ?>"
-            class="block px-4 py-2.5 rounded-xl font-medium text-sm transition-all <?= $active == 'puisi' ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-slate-600 hover:bg-slate-50 hover:text-blue-600' ?>">
+        <!-- <a href="<?//= base_url('posts/category/puisi') ?>"
+            class="block px-4 py-2.5 rounded-xl font-medium text-sm transition-all <?//= $active == 'puisi' ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-slate-600 hover:bg-slate-50 hover:text-blue-600' ?>">
             Puisi
-        </a>
+        </a> -->
 
         <a href="mailto:vuedevo@gmail.com"
             class="block px-4 py-2.5 rounded-xl font-medium text-sm transition-all <?= $active == 'contact' ? 'bg-blue-50 text-blue-600 font-semibold' : 'text-slate-600 hover:bg-slate-50 hover:text-blue-600' ?>">
