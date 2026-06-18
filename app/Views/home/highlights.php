@@ -1,7 +1,7 @@
 <section class="mb-16">
     <div class="flex items-center space-x-2 mb-6">
         <span class="w-3 h-3 bg-blue-600 rounded-full"></span>
-        <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400">Postingan Terbaru</h2>
+        <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400">Cerita Terbaru</h2>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
