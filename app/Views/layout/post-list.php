@@ -4,7 +4,7 @@
     <div class="lg:col-span-2 space-y-10">
         <div class="flex items-center justify-between border-b border-slate-200 pb-4">
             <h3 class="text-lg font-bold text-slate-900 tracking-tight">Semua Cerita</h3>
-            <span class="text-xs text-slate-400 font-medium">Menampilkan rilisan artikel berkala</span>
+            <!-- <span class="text-xs text-slate-400 font-medium">Yang seharusnya dibaca</span> -->
         </div>
 
         <!-- Feed Article -->
