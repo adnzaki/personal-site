@@ -5,9 +5,8 @@
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="lg:col-span-2 relative group overflow-hidden rounded-2xl bg-slate-400 shadow-xl aspect-square sm:aspect-video lg:aspect-auto lg:h-[475px] w-full">
 
-            <a href="<?= $latestPosts[0]->url ?>" class="absolute inset-0 z-10" aria-hidden="true"></a>
+        <a href="<?= $latestPosts[0]->url ?>" class="lg:col-span-2 relative group overflow-hidden rounded-2xl bg-slate-400 shadow-xl aspect-square sm:aspect-video lg:aspect-auto lg:h-[475px] w-full block">
 
             <img src="<?= $latestPosts[0]->media ?>" alt="Gambar untuk <?= $latestPosts[0]->title ?>" class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-700 ease-out z-0">
 
@@ -20,9 +19,7 @@
                 </span>
 
                 <h3 class="text-base sm:text-2xl lg:text-4xl font-bold text-white leading-snug sm:leading-tight mb-2 sm:mb-4 group-hover:text-blue-200 transition-colors">
-                    <a href="<?= $latestPosts[0]->url ?>">
-                        <?= $latestPosts[0]->title ?>
-                    </a>
+                    <?= $latestPosts[0]->title ?>
                 </h3>
 
                 <p class="text-slate-200 text-xs sm:text-sm font-normal max-w-2xl mb-4 opacity-90 line-clamp-2 sm:line-clamp-3 leading-relaxed">
@@ -44,13 +41,13 @@
                     </span>
                 </div>
             </div>
-        </div>
+        </a>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
             <?php $index = 1;
             foreach (array_slice($latestPosts, 1, 3) as $post) : ?>
 
-                <div class="rounded-2xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between relative group hover:shadow-md transition-all duration-300 min-h-[200px] overflow-hidden bg-slate-900">
+                <a href="<?= $post->url ?>" class="rounded-2xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between relative group hover:shadow-md transition-all duration-300 min-h-[200px] overflow-hidden bg-slate-900 block">
 
                     <?php if (!empty($post->singlePostImage)): ?>
                         <img src="<?= $post->singlePostImage ?>" alt="<?= esc($post->title) ?>" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 z-0 opacity-40">
@@ -64,9 +61,7 @@
                         </span>
 
                         <h4 class="text-base font-bold text-white leading-snug group-hover:text-blue-300 transition-colors line-clamp-2">
-                            <a href="<?= $post->url ?>" class="after:absolute after:inset-0 after:z-10">
-                                <?= $post->title ?>
-                            </a>
+                            <?= $post->title ?>
                         </h4>
 
                         <p class="text-xs text-slate-300 mt-2 line-clamp-2 leading-relaxed">
@@ -79,7 +74,7 @@
                         <span><?= $post->commentsCount ?> Komentar</span>
                     </div>
 
-                </div>
+                </a>
 
             <?php $index++;
             endforeach; ?>
