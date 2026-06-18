@@ -1,35 +1,21 @@
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const nav = document.querySelector(".classy-navbar");
-        const logo = document.querySelector(".logo-bit-bait");
-        const navHeight = nav.offsetHeight;
-        const stickyOffset = 100; // Jarak gulir sebelum menu menjadi "sticky"
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
 
-        window.addEventListener("scroll", function() {
-            if (window.pageYOffset > stickyOffset) {
-                nav.classList.add("sticky-nav", "scrolled");
-                logo.classList.add("logo-scrolled");
-                document.body.style.paddingTop = navHeight + "px"; // Mencegah halaman "melompat"
+        menuBtn.addEventListener('click', function() {
+            // Toggle kelas hidden pada menu drawer
+            mobileMenu.classList.toggle('hidden');
+
+            // Mengubah icon SVG (Hamburger <=> Close 'X') secara dinamis saat diklik
+            if (mobileMenu.classList.contains('hidden')) {
+                // Balik ke ikon Hamburger lines
+                menuIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
             } else {
-                nav.classList.remove("sticky-nav", "scrolled");
-                logo.classList.remove("logo-scrolled");
-                document.body.style.paddingTop = 0;
+                // Ubah ke ikon 'X' (Close)
+                menuIcon.setAttribute('d', 'M6 18L18 6M6 6l12 12');
             }
         });
     });
 </script>
-
-<!-- jQuery (Necessary for All JavaScript Plugins) -->
-<script src="<?= base_url('js/jquery/jquery-2.2.4.min.js') ?>"></script>
-<!-- Popper js -->
-<script src="<?= base_url('js/popper.min.js') ?>"></script>
-<!-- Bootstrap js -->
-<!-- <script src="<? //= base_url('js/bootstrap.min.js') 
-                    ?>"></script> -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-<script src="<?= base_url('js/prism.js') ?>"></script>
-<!-- Plugins js -->
-<script src="<?= base_url('js/plugins.js') ?>"></script>
-<!-- Active js -->
-<script src="<?= base_url('js/active.js') ?>"></script>
-<script src="<?= base_url('js/site.js') ?>"></script>

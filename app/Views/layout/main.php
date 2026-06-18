@@ -23,14 +23,56 @@
     <link rel="manifest" href="/site.webmanifest">
 
     <!-- Style CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="<?= base_url('style.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('custom.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('css/prism.css') ?>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts untuk tipografi modern -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#0f172a',
+                            primary: '#1e3a8a',
+                            accent: '#3b82f6',
+                            muted: '#64748b',
+                            bg: '#f8fafc'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
 
 </head>
 
-<body>
+<body class="antialiased selection:bg-blue-500 selection:text-white">
     <?php if (session()->getFlashdata('success')): ?>
         <?= view('layout/toast', ['message' => session()->getFlashdata('success'), 'color' => 'success']) ?>
     <?php endif; ?>
@@ -40,16 +82,19 @@
     <?php endif; ?>
 
     <!-- Preloader -->
-    <div id="preloader">
+    <!-- <div id="preloader">
         <div class="preload-content">
             <div id="original-load"></div>
         </div>
-    </div>
+    </div> -->
 
     <?= view('layout/header') ?>
 
-    <?= $content ?>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <?= $content ?>
+    </main>
 
-    <?= view('layout/footer') ?>
-    <?= view('layout/scripts') ?>
+
+        <?= view('layout/footer') ?>
+        <?= view('layout/scripts') ?>
 </body>

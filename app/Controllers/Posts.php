@@ -39,12 +39,14 @@ class Posts extends BaseController
             'count'         => $pager->getPageCount(),
             'tags'          => wp()->getTags(),
             'notHome'       => true,
+            'popularPosts'  => $this->getPopularPosts(),
         ];
 
         $data = [
             'title'         => 'Bit & Bait - Semua Post',
             'og_meta'       => $this->openGraphMeta,
             'content'       => view('layout/post-list', $pageContent),
+            'activeMenu'    => $filter ?? 'home',
         ];
 
         return view('layout/main', $data);
@@ -65,7 +67,8 @@ class Posts extends BaseController
         $pageContent = [
             'post'          => $post,
             'tags'          => wp()->getTags(),
-            'comments'      => $comments
+            'comments'      => $comments,
+            'popularPosts'  => $this->getPopularPosts(),
         ];
 
         $postTitle = $post->title ?? 'Post tidak ditemukan';
@@ -81,6 +84,7 @@ class Posts extends BaseController
             'title'         => $postTitle,
             'og_meta'       => $openGraphMeta,
             'content'       => view('single-post/content', $pageContent),
+            'activeMenu'    => 'read',
         ];
 
         return view('layout/main', $data);

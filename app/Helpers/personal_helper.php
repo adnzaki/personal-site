@@ -1,4 +1,27 @@
 <?php
+
+// create function to colorize text based on category
+if (! function_exists('colorize_category')) {
+    /**
+     * Get color class for a given category name
+     *
+     * @param string $categoryName
+     * @return string CSS class for the category badge
+     */
+    function colorize_category(string $categoryName): string
+    {
+        $mapping = [
+            'nurani' => 'text-amber-600',
+            'tekno' => 'text-blue-600',
+            'coding' => 'text-emerald-600',
+            'puisi' => 'text-pink-600',
+        ];
+
+        $key = strtolower($categoryName);
+        return $mapping[$key] ?? 'text-gray-600';
+    }
+}
+
 if (! function_exists('insert_visitor')) {
     /**
      * Insert new site visitor

@@ -1,40 +1,88 @@
-<!-- ##### Blog Wrapper Start ##### -->
-<div class="blog-wrapper section-padding-60 clearfix">
-    <div class="container">
-        <div class="row align-items-end">
-            <!-- Single Blog Area -->
-            <div class="col-12 col-lg-4">
-                <div class="single-blog-area clearfix mb-100">
-                    <!-- Blog Content -->
-                    <div class="single-blog-content">
-                        <div class="line"></div>
-                        <a href="#" class="post-tag"><?= $latestPosts[0]->categories ?></a>
-                        <h4><a href="<?= $latestPosts[0]->url ?>" class="post-headline"><?= $latestPosts[0]->title ?></a></h4>
-                        <p><?= $latestPosts[0]->excerpt ?></p>
-                        <!-- <p>Curabitur venenatis efficitur lorem sed tempor. Integer aliquet tempor cursus. Nullam vestibulum convallis risus vel condimentum. Nullam auctor lorem in libero luctus, vel volutpat quam tincidunt. Morbi sodales, dolor id ultricies dictum</p> -->
-                        <a href="<?= base_url('posts') ?>" class="btn original-btn">Lihat Semua Cerita</a>
-
-                    </div>
-                </div>
-            </div>
-            <!-- Single Blog Area -->
-            <?php $index = 0;
-            foreach (array_slice($latestPosts, 0, 2) as $post) : ?>
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="single-catagory-area clearfix mb-100">
-
-                        <img src="<?= $post->media ?>" alt="<?= $post->title ?>">
-                        <!-- Catagory Title -->
-                        <div class="catagory-title">
-                            <a href="<?= $post->url ?>"><?= $index > 0 ? $post->title : 'baca selengkapnya' ?></a>
-                        </div>
-                    </div>
-                </div>
-            <?php $index++;
-            endforeach; ?>
-
-        </div>
+<section class="mb-16">
+    <div class="flex items-center space-x-2 mb-6">
+        <span class="w-3 h-3 bg-blue-600 rounded-full"></span>
+        <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400">Postingan Terbaru</h2>
     </div>
 
-</div>
-<!-- ##### Blog Wrapper End ##### -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 relative group overflow-hidden rounded-2xl bg-slate-400 shadow-xl aspect-square sm:aspect-video lg:aspect-auto lg:h-[475px] w-full">
+
+            <a href="<?= $latestPosts[0]->url ?>" class="absolute inset-0 z-10" aria-hidden="true"></a>
+
+            <img src="<?= $latestPosts[0]->media ?>" alt="Gambar untuk <?= $latestPosts[0]->title ?>" class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-700 ease-out z-0">
+
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent z-10"></div>
+
+            <div class="absolute inset-0 p-5 sm:p-8 lg:p-10 flex flex-col justify-end z-20">
+
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-semibold bg-blue-500 text-white w-max mb-2 sm:mb-4">
+                    <?= $latestPosts[0]->categories ?>
+                </span>
+
+                <h3 class="text-base sm:text-2xl lg:text-4xl font-bold text-white leading-snug sm:leading-tight mb-2 sm:mb-4 group-hover:text-blue-200 transition-colors">
+                    <a href="<?= $latestPosts[0]->url ?>">
+                        <?= $latestPosts[0]->title ?>
+                    </a>
+                </h3>
+
+                <p class="text-slate-200 text-xs sm:text-sm font-normal max-w-2xl mb-4 opacity-90 line-clamp-2 sm:line-clamp-3 leading-relaxed">
+                    <?= $latestPosts[0]->excerpt ?>
+                </p>
+
+                <div class="flex items-center text-[11px] sm:text-sm text-slate-300 space-x-4 font-medium pt-2 sm:pt-0 border-t border-slate-800/40 sm:border-t-0">
+                    <span class="flex items-center shrink-0">
+                        <svg class="w-3.5 h-3.5 mr-1 sm:w-4 sm:h-4 sm:mr-1.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <?= osdate()->create($latestPosts[0]->date) ?>
+                    </span>
+                    <span class="flex items-center shrink-0">
+                        <svg class="w-3.5 h-3.5 mr-1 sm:w-4 sm:h-4 sm:mr-1.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                        </svg>
+                        <?= $latestPosts[0]->commentsCount ?> Komentar
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
+            <?php $index = 1;
+            foreach (array_slice($latestPosts, 1, 3) as $post) : ?>
+
+                <div class="rounded-2xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between relative group hover:shadow-md transition-all duration-300 min-h-[200px] overflow-hidden bg-slate-900">
+
+                    <?php if (!empty($post->singlePostImage)): ?>
+                        <img src="<?= $post->singlePostImage ?>" alt="<?= esc($post->title) ?>" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 z-0 opacity-40">
+                    <?php endif; ?>
+
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/80 to-transparent z-10"></div>
+
+                    <div class="relative z-20">
+                        <span class="text-[11px] font-bold tracking-wider <?= colorize_category($post->categories) ?> uppercase block mb-2">
+                            <?= $post->categories ?>
+                        </span>
+
+                        <h4 class="text-base font-bold text-white leading-snug group-hover:text-blue-300 transition-colors line-clamp-2">
+                            <a href="<?= $post->url ?>" class="after:absolute after:inset-0 after:z-10">
+                                <?= $post->title ?>
+                            </a>
+                        </h4>
+
+                        <p class="text-xs text-slate-300 mt-2 line-clamp-2 leading-relaxed">
+                            <?= $post->excerpt ?>
+                        </p>
+                    </div>
+
+                    <div class="text-[11px] text-slate-400 font-medium mt-6 pt-3 border-t border-slate-700/50 flex justify-between relative z-20">
+                        <span><?= osdate()->create($post->date) ?></span>
+                        <span><?= $post->commentsCount ?> Komentar</span>
+                    </div>
+
+                </div>
+
+            <?php $index++;
+            endforeach; ?>
+        </div>
+    </div>
+</section>

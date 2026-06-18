@@ -10,11 +10,11 @@ class Home extends BaseController
     {
         insert_visitor();
         $latestPosts = wp()->setSinglePostUrl($this->singlePostUrl)
-                        ->setPerPage(2)
-                        ->getPosts(1, ['media', 'category']);
+                        ->setPerPage(3)
+                        ->getPosts(1, ['media', 'category', 'comment']);
                         
         $recentPosts = wp()->setSinglePostUrl($this->singlePostUrl)
-                        ->startFrom(2)
+                        ->startFrom(3)
                         ->setPerPage(5)
                         ->getPosts(1, ['media', 'category', 'comment']);
         $wrapperContent = [
@@ -22,12 +22,14 @@ class Home extends BaseController
             'recentStatus'  => $recentPosts['status'],
             'latestPosts'   => $latestPosts['data'],
             'posts'         => $recentPosts['data'],
+            'popularPosts'  => $this->getPopularPosts(),
             'tags'          => wp()->getTags(),
         ];
 
         $content = [
             'highlights'    => view('home/highlights', $wrapperContent),
             'recent'        => view('layout/post-list', $wrapperContent),
+            'activeMenu'    => '',
         ];
 
         $data = [

@@ -29,4 +29,23 @@ trait PostTrait
             $this->model->where('post_id', $postId)->set('views', $detail['views'] + 1)->update();
         }
     }
+
+    public function getPopularPosts()
+    {
+        $ids = [];
+        $popularPosts = [];
+        $topPosts = $this->model->orderBy('views', 'desc');
+
+        if ($topPosts->countAllResults(false) > 0) {
+            $ids = $topPosts->findAll(5);
+            $ids = array_column($ids, 'post_id');
+            $popularPosts = wp()->setPerPage(5)
+                ->setSinglePostUrl('read')
+                ->setOrder('include')
+                ->setIds($ids)
+                ->getPosts(1, ['media', 'category'])['data'];
+        }
+
+        return $popularPosts;
+    }
 }
