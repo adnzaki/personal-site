@@ -3,15 +3,15 @@
 
         <div class="lg:col-span-2 space-y-6">
 
-            <div class="w-full bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+            <div class="w-auto -mx-4 bg-white border-y border-slate-100 md:mx-0 md:w-full md:rounded-2xl md:shadow-sm md:border overflow-hidden">
 
                 <?php if (!empty($post->singlePostImage)): ?>
-                    <div class="w-full overflow-hidden aspect-[16/9] md:aspect-[21/9] bg-slate-100">
+                    <div class="w-[90%] mx-auto mt-4 overflow-hidden aspect-[16/9] md:w-full md:mx-0 md:mt-0 md:aspect-[21/9] bg-slate-100 rounded-xl md:rounded-none">
                         <img src="<?= $post->singlePostImage ?>" alt="<?= esc($post->title) ?>" class="w-full h-full object-cover">
                     </div>
                 <?php endif; ?>
 
-                <div class="p-6 sm:p-8 lg:p-10">
+                <div class="px-6 py-5 sm:p-8 lg:p-10">
 
                     <div class="flex flex-wrap items-center text-xs sm:text-sm font-medium text-slate-400 gap-y-2 gap-x-4 mb-4 border-b border-slate-50 pb-4">
                         <span class="flex items-center text-slate-500">
@@ -29,14 +29,14 @@
                         </span>
 
                         <span class="flex items-center text-blue-600 font-semibold uppercase tracking-wider text-[11px]">
-                            <svg class="w-4 h-4 mr-1.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M6 20n4n-4n4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                            <svg class="w-4 h-4 mr-1.5 mt-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="6" d="M7 7h.01M6 20n4n-4n4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                             </svg>
                             <?= esc($post->categories) ?>
                         </span>
                     </div>
 
-                    <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 leading-tight mb-6">
+                    <h1 class="text-xl sm:text-3xl lg:text-4xl font-bold text-slate-900 leading-tight mb-6">
                         <?= $post->title ?>
                     </h1>
 
@@ -149,8 +149,6 @@
         </div>
 
         <?= view('layout/sidebar') ?>
-
-        
 
     </div>
 <?php else: ?>
