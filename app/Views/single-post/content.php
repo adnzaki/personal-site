@@ -72,6 +72,38 @@
             </div>
 
             <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 sm:p-8 lg:p-10">
+                
+                <!-- MODIFIKASI: Form Komentar ditaruh di bagian paling atas -->
+                <div id="comment-form-wrapper" class="mb-10 pb-8 border-b border-slate-100">
+                    <h4 id="comment-form-title" class="text-base sm:text-lg font-bold text-slate-900 mb-6">Tinggalkan Balasan</h4>
+                    <form action="<?= base_url('add-comment') ?>" method="post" id="comment-form" class="space-y-4">
+                        <input type="hidden" name="parent_id" id="parent_id" value="0">
+                        <input type="hidden" name="post_id" id="post_id" value="<?= $post->id ?>">
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Nama Anda</label>
+                                <input type="text" name="name" id="name" required class="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3 text-sm text-slate-900 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Alamat Email</label>
+                                <input type="email" name="email" id="email" required class="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3 text-sm text-slate-900 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Isi Komentar</label>
+                            <textarea name="message" id="message" rows="4" required class="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3 text-sm text-slate-900 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all resize-none"></textarea>
+                        </div>
+
+                        <div class="flex items-center justify-end gap-2 pt-2">
+                            <button type="button" id="cancel-reply" onclick="resetCommentForm()" class="hidden px-4 py-2.5 text-sm font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-xl transition-colors">Batal</button>
+                            <button type="submit" class="px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-sm transition-colors">Kirim Komentar</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Judul Daftar Komentar -->
                 <h3 class="text-lg sm:text-xl font-bold text-slate-900 border-b border-slate-100 pb-4 mb-6 flex items-center">
                     <svg class="w-5 h-5 mr-2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -97,7 +129,7 @@
                                                 <h5 class="text-sm font-bold text-slate-900"><?= esc($comment->author_name); ?></h5>
                                                 <span class="text-[11px] text-slate-400 font-medium"><?= osdate()->create($comment->date, 'd-M-y'); ?></span>
                                             </div>
-
+                                            
                                             <p class="text-sm text-slate-600 leading-relaxed">
                                                 <?php if ($depth > 1 && !empty($parent_name)): ?>
                                                     <span class="text-blue-600 font-semibold mr-1">@<?= esc($parent_name) ?></span>
@@ -128,36 +160,7 @@
                     ?>
                 </ol>
 
-                <div id="comment-form-wrapper" class="mt-10 pt-8 border-t border-slate-100">
-                    <h4 id="comment-form-title" class="text-base sm:text-lg font-bold text-slate-900 mb-6">Tinggalkan Balasan</h4>
-                    <form action="<?= base_url('add-comment') ?>" method="post" id="comment-form" class="space-y-4">
-                        <input type="hidden" name="parent_id" id="parent_id" value="0">
-                        <input type="hidden" name="post_id" id="post_id" value="<?= $post->id ?>">
-
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Nama Anda</label>
-                                <input type="text" name="name" id="name" required class="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3 text-sm text-slate-900 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Alamat Email</label>
-                                <input type="email" name="email" id="email" required class="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3 text-sm text-slate-900 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all">
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Isi Komentar</label>
-                            <textarea name="message" id="message" rows="4" required class="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3 text-sm text-slate-900 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all resize-none"></textarea>
-                        </div>
-
-                        <div class="flex items-center justify-end gap-2 pt-2">
-                            <button type="button" id="cancel-reply" onclick="resetCommentForm()" class="hidden px-4 py-2.5 text-sm font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-xl transition-colors">Batal</button>
-                            <button type="submit" class="px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-sm transition-colors">Kirim Komentar</button>
-                        </div>
-                    </form>
-                </div>
             </div>
-
         </div>
 
         <?= view('layout/sidebar') ?>
@@ -191,6 +194,7 @@
         }
 
         function resetCommentForm() {
+            // Ketika tombol Batal ditekan, form otomatis kembali ke wrapper atas semula
             originalWrapper.appendChild(commentForm);
 
             parentIdInput.value = "0";
