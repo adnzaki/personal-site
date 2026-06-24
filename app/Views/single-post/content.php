@@ -60,10 +60,14 @@
 
             <div class="bg-slate-50 border border-slate-100 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-4 sm:gap-6">
                 <img class="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover shadow-sm bg-white border-2 border-white ring-4 ring-slate-100 shrink-0" src="<?= $post->authorImage ?>" alt="<?= esc($post->author) ?>">
-                <div class="flex-1">
+                <div class="flex-1 w-full">
                     <span class="text-[10px] font-bold tracking-widest text-slate-400 uppercase block mb-1">Penulis</span>
-                    <h4 class="text-lg font-bold text-slate-900 mb-2"><?= esc($post->author) ?></h4>
-                    <p class="text-sm text-slate-500 leading-relaxed max-w-2xl"><?= esc($post->authorBio) ?></p>
+                    <h4 class="text-lg font-bold text-slate-900 mb-3"><?= esc($post->author) ?></h4>
+
+                    <p class="text-sm text-slate-500 italic leading-relaxed max-w-2xl relative pl-3 text-left">
+                        <span class="text-xl font-serif text-slate-300 absolute left-0 top-[-4px] leading-none select-none" aria-hidden="true">&ldquo;</span>
+                        <?= esc($post->authorBio) ?>
+                    </p>
                 </div>
             </div>
 
