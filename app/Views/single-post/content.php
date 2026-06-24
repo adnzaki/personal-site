@@ -82,7 +82,7 @@
                 <ol class="space-y-6">
                     <?php
                     if (!function_exists('renderTailwindComments')) {
-                        function renderTailwindComments($comments)
+                        function renderTailwindComments($comments, $depth = 1, $parent_name = '')
                         {
                             if (empty($comments)) return;
                             foreach ($comments as $comment) : ?>
@@ -95,21 +95,29 @@
                                         <div class="flex-1 bg-slate-50 rounded-2xl p-4 border border-slate-100/60 relative">
                                             <div class="flex flex-wrap items-baseline justify-between gap-1 mb-2">
                                                 <h5 class="text-sm font-bold text-slate-900"><?= esc($comment->author_name); ?></h5>
-                                                <span class="text-[11px] text-slate-400 font-medium"><?= osdate()->create($comment->date, 'd M Y'); ?></span>
+                                                <span class="text-[11px] text-slate-400 font-medium"><?= osdate()->create($comment->date, 'd-M-y'); ?></span>
                                             </div>
-                                            <p class="text-sm text-slate-600 leading-relaxed"><?= esc(strip_tags($comment->content->rendered)); ?></p>
+
+                                            <p class="text-sm text-slate-600 leading-relaxed">
+                                                <?php if ($depth > 1 && !empty($parent_name)): ?>
+                                                    <span class="text-blue-600 font-semibold mr-1">@<?= esc($parent_name) ?></span>
+                                                <?php endif; ?>
+                                                <?= esc(strip_tags($comment->content->rendered)); ?>
+                                            </p>
 
                                             <div class="mt-2 flex justify-end">
-                                                <a href="#reply-to-<?= $comment->id ?>" class="text-xs font-semibold text-blue-600 hover:text-blue-800 transition-colors inline-flex items-center">
+                                                <button type="button" onclick="moveCommentForm(<?= $comment->id ?>, '<?= esc($comment->author_name) ?>')" class="text-xs font-semibold text-blue-600 hover:text-blue-800 transition-colors inline-flex items-center cursor-pointer">
                                                     Balas
-                                                </a>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
 
+                                    <div id="reply-form-placeholder-<?= $comment->id ?>" class="<?= ($depth == 1) ? 'pl-6 sm:pl-12 ml-5 sm:ml-5.5' : 'pl-0' ?> mt-4 hidden empty:hidden"></div>
+
                                     <?php if (!empty($comment->replies)) : ?>
-                                        <ol class="pl-6 sm:pl-12 mt-4 space-y-4 border-l-2 border-slate-100 ml-5 sm:ml-5.5">
-                                            <?php renderTailwindComments($comment->replies); ?>
+                                        <ol class="<?= ($depth == 1) ? 'pl-6 sm:pl-12 border-l-2 border-slate-100 ml-5 sm:ml-5.5' : 'pl-0 space-y-4' ?> mt-4 space-y-4">
+                                            <?php renderTailwindComments($comment->replies, $depth + 1, $comment->author_name); ?>
                                         </ol>
                                     <?php endif; ?>
                                 </li>
@@ -143,7 +151,7 @@
                         </div>
 
                         <div class="flex items-center justify-end gap-2 pt-2">
-                            <button type="button" id="cancel-reply" class="hidden px-4 py-2.5 text-sm font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-xl transition-colors">Batal</button>
+                            <button type="button" id="cancel-reply" onclick="resetCommentForm()" class="hidden px-4 py-2.5 text-sm font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-xl transition-colors">Batal</button>
                             <button type="submit" class="px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-sm transition-colors">Kirim Komentar</button>
                         </div>
                     </form>
@@ -155,6 +163,46 @@
         <?= view('layout/sidebar') ?>
 
     </div>
+
+    <script>
+        const originalWrapper = document.getElementById('comment-form-wrapper');
+        const commentForm = document.getElementById('comment-form');
+        const parentIdInput = document.getElementById('parent_id');
+        const formTitle = document.getElementById('comment-form-title');
+        const cancelButton = document.getElementById('cancel-reply');
+
+        function moveCommentForm(commentId, authorName) {
+            const placeholder = document.getElementById(`reply-form-placeholder-${commentId}`);
+
+            if (placeholder) {
+                document.querySelectorAll('[id^="reply-form-placeholder-"]').forEach(el => {
+                    el.classList.add('hidden');
+                });
+
+                placeholder.appendChild(commentForm);
+                placeholder.classList.remove('hidden');
+
+                parentIdInput.value = commentId;
+                formTitle.textContent = `Balas Komentar: ${authorName}`;
+                cancelButton.classList.remove('hidden');
+
+                document.getElementById('message').focus();
+            }
+        }
+
+        function resetCommentForm() {
+            originalWrapper.appendChild(commentForm);
+
+            parentIdInput.value = "0";
+            formTitle.textContent = "Tinggalkan Balasan";
+            cancelButton.classList.add('hidden');
+
+            document.querySelectorAll('[id^="reply-form-placeholder-"]').forEach(el => {
+                el.classList.add('hidden');
+            });
+        }
+    </script>
+
 <?php else: ?>
     <div class="w-full bg-white rounded-2xl shadow-sm border border-slate-100 p-12 text-center my-10">
         <svg class="w-16 h-16 mx-auto text-slate-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
