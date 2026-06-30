@@ -78,7 +78,9 @@ class Autoload extends AutoloadConfig
      *
      * @var list<string>
      */
-    public $files = [];
+    public $files = [
+        ROOTPATH . 'vendor/autoload.php',
+    ];
 
     /**
      * -------------------------------------------------------------------

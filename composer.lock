@@ -4,8 +4,48 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "657ac079313fab046eb8c29fe1d6992b",
+    "content-hash": "2946972d3dd76a7a34b46f7ddbf3c9d7",
     "packages": [
+        {
+            "name": "adnzaki/wp-adapter",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/adnzaki/wp-adapter.git",
+                "reference": "b4e4b79f3200a1a82532629e9abaa8a4260ab028"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/adnzaki/wp-adapter/zipball/b4e4b79f3200a1a82532629e9abaa8a4260ab028",
+                "reference": "b4e4b79f3200a1a82532629e9abaa8a4260ab028",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1 || ^8.2 || ^8.3"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adnan Zaki",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A simple WordPress REST API adapter class.",
+            "support": {
+                "issues": "https://github.com/adnzaki/wp-adapter/issues",
+                "source": "https://github.com/adnzaki/wp-adapter/tree/v1.0.2"
+            },
+            "time": "2026-06-30T08:06:03+00:00"
+        },
         {
             "name": "codeigniter4/framework",
             "version": "v4.6.3",
@@ -2083,5 +2123,5 @@
         "php": "^8.1"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
