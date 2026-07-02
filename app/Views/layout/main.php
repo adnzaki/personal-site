@@ -52,8 +52,8 @@
         }
     </script>
     <?php if (isset($isSinglePost) && $isSinglePost): ?>
-        <link rel='stylesheet' id='kevinbatdorf-code-block-pro-style-css' href='<?= env('wordpress_url') ?>wp-content/plugins/code-block-pro/build/style-index.css?ver=1.13.0' media='all' />
-        <link rel='stylesheet' id='kevinbatdorf-code-block-pro-style-css' href='<?= env('wordpress_url') ?>wp-content/plugins/code-block-pro/build/index.css' />
+        <link rel='stylesheet' id='kevinbatdorf-code-block-pro-style-css' href='<?= env('wordpress_url_2') ?>wp-content/plugins/code-block-pro/build/style-index.css?ver=1.13.0' media='all' />
+        <link rel='stylesheet' id='kevinbatdorf-code-block-pro-style-css' href='<?= env('wordpress_url_2') ?>wp-content/plugins/code-block-pro/build/index.css' />
 
     <?php endif; ?>
 
