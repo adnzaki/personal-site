@@ -85,6 +85,7 @@ class Posts extends BaseController
             'og_meta'       => $openGraphMeta,
             'content'       => view('single-post/content', $pageContent),
             'activeMenu'    => 'read',
+            'isSinglePost'  => true,
         ];
 
         return view('layout/main', $data);

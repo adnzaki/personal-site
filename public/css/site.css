@@ -26,3 +26,10 @@ article hr.wp-block-separator {
 article p {
     text-align: justify;
 }
+
+article h1,
+article h2,
+article h3,
+article p {
+    margin: 15px 0 !important;
+}
