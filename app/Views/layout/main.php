@@ -54,6 +54,82 @@
     <?php if (isset($isSinglePost) && $isSinglePost): ?>
         <link rel='stylesheet' id='kevinbatdorf-code-block-pro-style-css' href='<?= env('wordpress_url_2') ?>wp-content/plugins/code-block-pro/build/style-index.css?ver=1.13.0' media='all' />
         <link rel='stylesheet' id='kevinbatdorf-code-block-pro-style-css' href='<?= env('wordpress_url_2') ?>wp-content/plugins/code-block-pro/build/index.css' />
+        <style>
+            @font-face {
+                font-family: Code-Pro-Fira-Code;
+                src: url("<?= env('wordpress_url_2') ?>wp-content/plugins/code-block-pro/build/fonts/Code-Pro-Fira-Code.bf5ea52f.woff2") format('woff2');
+            }
+
+            @font-face {
+                font-family: Code-Pro-JetBrains-Mono;
+                src: url("<?= env('wordpress_url_2') ?>wp-content/plugins/code-block-pro/build/fonts/Code-Pro-JetBrains-Mono.1e66c47a.woff2") format('woff2');
+            }
+
+            @font-face {
+                font-family: Code-Pro-JetBrains-Mono-NL;
+                src: url("<?= env('wordpress_url_2') ?>wp-content/plugins/code-block-pro/build/fonts/Code-Pro-JetBrains-Mono-NL.432a7b10.ttf") format('truetype');
+            }
+
+            @font-face {
+                font-family: Code-Pro-Comic-Mono;
+                src: url("<?= env('wordpress_url_2') ?>wp-content/plugins/code-block-pro/build/fonts/Code-Pro-Comic-Mono.53a3d0c4.ttf") format('truetype');
+            }
+
+            @font-face {
+                font-family: Code-Pro-Roboto-Mono;
+                src: url("<?= env('wordpress_url_2') ?>wp-content/plugins/code-block-pro/build/fonts/Code-Pro-Roboto-Mono.94ffabb1.ttf") format('truetype');
+            }
+
+            @font-face {
+                font-family: Code-Pro-Fantasque-Sans-Mono;
+                src: url("<?= env('wordpress_url_2') ?>wp-content/plugins/code-block-pro/build/fonts/Code-Pro-Fantasque-Sans-Mono.6c511db2.woff2") format('woff2');
+            }
+
+            @font-face {
+                font-family: Code-Pro-Cozette;
+                src: url("<?= env('wordpress_url_2') ?>wp-content/plugins/code-block-pro/build/fonts/Code-Pro-Cozette.6a7d67c5.woff2") format('woff2');
+            }
+
+            @font-face {
+                font-family: Code-Pro-Deja-Vu-Mono;
+                src: url("<?= env('wordpress_url_2') ?>wp-content/plugins/code-block-pro/build/fonts/Code-Pro-Deja-Vu-Mono.7ba86537.ttf") format('truetype');
+            }
+
+            @font-face {
+                font-family: Code-Pro-Monaspace-Argon;
+                src: url("<?= env('wordpress_url_2') ?>wp-content/plugins/code-block-pro/build/fonts/Code-Pro-Monaspace-Argon.102d94d0.woff") format('woff');
+            }
+
+            @font-face {
+                font-family: Code-Pro-Monaspace-Krypton;
+                src: url("<?= env('wordpress_url_2') ?>wp-content/plugins/code-block-pro/build/fonts/Code-Pro-Monaspace-Krypton.44966aaa.woff") format('woff');
+            }
+
+            @font-face {
+                font-family: Code-Pro-Monaspace-Neon;
+                src: url("<?= env('wordpress_url_2') ?>wp-content/plugins/code-block-pro/build/fonts/Code-Pro-Monaspace-Neon.257144c3.woff") format('woff');
+            }
+
+            @font-face {
+                font-family: Code-Pro-Monaspace-Radon;
+                src: url("<?= env('wordpress_url_2') ?>wp-content/plugins/code-block-pro/build/fonts/Code-Pro-Monaspace-Radon.9f755736.woff") format('woff');
+            }
+
+            @font-face {
+                font-family: Code-Pro-Monaspace-Xenon;
+                src: url("<?= env('wordpress_url_2') ?>wp-content/plugins/code-block-pro/build/fonts/Code-Pro-Monaspace-Xenon.bad9f4b9.woff") format('woff');
+            }
+
+            @font-face {
+                font-family: Code-Pro-Geist-Mono;
+                src: url("<?= env('wordpress_url_2') ?>wp-content/plugins/code-block-pro/build/fonts/Code-Pro-Geist-Mono.8f5e9544.woff2") format('woff2');
+            }
+
+            @font-face {
+                font-family: Code-Pro-Hack;
+                src: url("<?= env('wordpress_url_2') ?>wp-content/plugins/code-block-pro/build/fonts/Code-Pro-Hack.fe74d490.woff2") format('woff2');
+            }
+        </style>
 
     <?php endif; ?>
 
